@@ -49,6 +49,10 @@ repositories {
     }
 }
 
+configurations.all {
+    resolutionStrategy.force 'com.google.code.gson:gson:2.11.0'
+}
+
 base {
     archivesName = "${project.name}-${minecraft_version}"
 }
@@ -60,6 +64,7 @@ java {
 
 loom {
     splitEnvironmentSourceSets()
+    accessWidenerPath = file("src/main/resources/ldlib2.accesswidener")
     runs {
         client {
             client()
@@ -70,12 +75,6 @@ loom {
             server()
             configName = 'Fabric Server'
             ideConfigGenerated(true)
-        }
-        datagen {
-            data()
-            configName = 'Fabric Data Generation'
-            ideConfigGenerated(true)
-            programArgs '--all', '--mod', mod_id, '--output', file('src/generated/resources').absolutePath, '--existing', file('src/main/resources').absolutePath
         }
     }
 }
@@ -126,7 +125,8 @@ tasks.withType(ProcessResources).configureEach {
             'mod_license': mod_license,
             'mod_name': mod_name,
             'mod_description': mod_description,
-            'mod_url': mod_url
+            'mod_url': mod_url,
+            'fabric_api_version': fabric_api_version
     ]
     inputs.properties replaceProperties
 
