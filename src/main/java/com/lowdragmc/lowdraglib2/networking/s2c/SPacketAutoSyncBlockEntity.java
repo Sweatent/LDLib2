@@ -5,7 +5,7 @@ import com.lowdragmc.lowdraglib2.networking.PacketIntLocation;
 import com.lowdragmc.lowdraglib2.syncdata.blockentity.IAutoSyncBlockEntity;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import com.lowdragmc.lowdraglib2.networking.compat.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
