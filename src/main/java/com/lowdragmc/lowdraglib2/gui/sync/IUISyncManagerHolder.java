@@ -1,15 +1,15 @@
 package com.lowdragmc.lowdraglib2.gui.sync;
 
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 
 public interface IUISyncManagerHolder {
     UISyncManager getSyncManager();
 
-    default void writeInitialData(RegistryFriendlyByteBuf buf) {
+    default void writeInitialData(CompatRegistryFriendlyByteBuf buf) {
         getSyncManager().writeInitialData(buf);
     }
 
-    default void readInitialData(RegistryFriendlyByteBuf buf) {
+    default void readInitialData(CompatRegistryFriendlyByteBuf buf) {
         getSyncManager().readInitialData(buf);
     }
 }

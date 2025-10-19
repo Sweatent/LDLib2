@@ -25,7 +25,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -346,7 +346,7 @@ public class AccessorRegistries {
                         ResourceLocation.CODEC.fieldOf("id").forGetter(RecipeHolder::id),
                         Recipe.CODEC.fieldOf("recipe").forGetter(RecipeHolder::value)
                 ).apply(instance, RecipeHolder::new)))
-                .streamCodec((StreamCodec<RegistryFriendlyByteBuf, RecipeHolder>) (Object)RecipeHolder.STREAM_CODEC)
+                .streamCodec((StreamCodec<CompatRegistryFriendlyByteBuf, RecipeHolder>) (Object)RecipeHolder.STREAM_CODEC)
                 .build());
         registerAccessor(CustomDirectAccessor.builder(IResourcePath.class)
                 .codec(IResourcePath.CODEC)

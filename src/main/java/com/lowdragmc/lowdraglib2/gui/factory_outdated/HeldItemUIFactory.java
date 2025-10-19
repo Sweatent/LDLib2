@@ -5,7 +5,7 @@ import com.lowdragmc.lowdraglib2.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib2.gui.modular.ModularUI;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -37,13 +37,13 @@ public class HeldItemUIFactory extends UIFactory<HeldItemUIFactory.HeldItemHolde
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    protected HeldItemHolder readHolderFromSyncData(RegistryFriendlyByteBuf syncData) {
+    protected HeldItemHolder readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData) {
         Player player = Minecraft.getInstance().player;
         return player == null ? null :new HeldItemHolder(player, syncData.readEnum(InteractionHand.class));
     }
 
     @Override
-    protected void writeHolderToSyncData(RegistryFriendlyByteBuf syncData, HeldItemHolder holder) {
+    protected void writeHolderToSyncData(CompatRegistryFriendlyByteBuf syncData, HeldItemHolder holder) {
         syncData.writeEnum(holder.hand);
     }
 

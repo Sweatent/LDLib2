@@ -7,7 +7,7 @@ import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 public class SPacketUIRPCEventReturn implements CustomPacketPayload {
     public static final ResourceLocation ID = LDLib2.id("ui_rpc_event_return");
     public static final Type<SPacketUIRPCEventReturn> TYPE = new Type<>(ID);
-    public static final StreamCodec<RegistryFriendlyByteBuf, SPacketUIRPCEventReturn> CODEC = StreamCodec.ofMember(SPacketUIRPCEventReturn::write, SPacketUIRPCEventReturn::decode);
+    public static final StreamCodec<CompatRegistryFriendlyByteBuf, SPacketUIRPCEventReturn> CODEC = StreamCodec.ofMember(SPacketUIRPCEventReturn::write, SPacketUIRPCEventReturn::decode);
 
     public byte[] returnData;
 
@@ -25,11 +25,11 @@ public class SPacketUIRPCEventReturn implements CustomPacketPayload {
         this.returnData = returnData;
     }
 
-    public void write(RegistryFriendlyByteBuf buf) {
+    public void write(CompatRegistryFriendlyByteBuf buf) {
         buf.writeByteArray(returnData);
     }
 
-    public static SPacketUIRPCEventReturn decode(RegistryFriendlyByteBuf buf) {
+    public static SPacketUIRPCEventReturn decode(CompatRegistryFriendlyByteBuf buf) {
         var returnData = buf.readByteArray();
         return new SPacketUIRPCEventReturn(returnData);
     }

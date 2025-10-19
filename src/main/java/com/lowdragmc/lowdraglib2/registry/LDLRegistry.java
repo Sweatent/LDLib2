@@ -9,7 +9,7 @@ import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -132,10 +132,10 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
         return registry.inverse().getOrDefault(key, defaultKey);
     }
 
-    public abstract void writeBuf(V value, RegistryFriendlyByteBuf buf);
+    public abstract void writeBuf(V value, CompatRegistryFriendlyByteBuf buf);
 
     @Nullable
-    public abstract V readBuf(RegistryFriendlyByteBuf buf);
+    public abstract V readBuf(CompatRegistryFriendlyByteBuf buf);
 
     public abstract Tag saveToNBT(V value);
 
@@ -150,7 +150,7 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
 
     public abstract Codec<Optional<V>> optionalCodec();
 
-    public abstract StreamCodec<RegistryFriendlyByteBuf, V> streamCodec();
+    public abstract StreamCodec<CompatRegistryFriendlyByteBuf, V> streamCodec();
 
     //************************ Built-in Registry ************************//
 
@@ -161,7 +161,7 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
         }
 
         @Override
-        public void writeBuf(V value, RegistryFriendlyByteBuf buf) {
+        public void writeBuf(V value, CompatRegistryFriendlyByteBuf buf) {
             buf.writeBoolean(containValue(value));
             if (containValue(value)) {
                 buf.writeUtf(getKey(value));
@@ -169,7 +169,7 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
         }
 
         @Override
-        public V readBuf(RegistryFriendlyByteBuf buf) {
+        public V readBuf(CompatRegistryFriendlyByteBuf buf) {
             if (buf.readBoolean()) {
                 return get(buf.readUtf());
             }
@@ -200,7 +200,7 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
                     optional -> optional.map(obj -> DataResult.success(this.getKey(obj))).orElseGet(() -> DataResult.error(() -> "registry key in " + this.registryName)));
         }
 
-        public StreamCodec<RegistryFriendlyByteBuf, V> streamCodec() {
+        public StreamCodec<CompatRegistryFriendlyByteBuf, V> streamCodec() {
             return StreamCodec.of((buf, value) -> buf.writeUtf(getKey(value)), buf -> Objects.requireNonNull(get(buf.readUtf())));
         }
 
@@ -213,7 +213,7 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
         }
 
         @Override
-        public void writeBuf(V value, RegistryFriendlyByteBuf buf) {
+        public void writeBuf(V value, CompatRegistryFriendlyByteBuf buf) {
             buf.writeBoolean(containValue(value));
             if (containValue(value)) {
                 buf.writeUtf(getKey(value).toString());
@@ -221,7 +221,7 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
         }
 
         @Override
-        public V readBuf(RegistryFriendlyByteBuf buf) {
+        public V readBuf(CompatRegistryFriendlyByteBuf buf) {
             if (buf.readBoolean()) {
                 return get(ResourceLocation.parse(buf.readUtf()));
             }
@@ -253,7 +253,7 @@ public abstract class LDLRegistry<K, V> implements Iterable<V> {
         }
 
         @Override
-        public StreamCodec<RegistryFriendlyByteBuf, V> streamCodec() {
+        public StreamCodec<CompatRegistryFriendlyByteBuf, V> streamCodec() {
             return StreamCodec.of((buf, value) -> buf.writeResourceLocation(getKey(value)), buf -> Objects.requireNonNull(get(buf.readResourceLocation())));
         }
     }

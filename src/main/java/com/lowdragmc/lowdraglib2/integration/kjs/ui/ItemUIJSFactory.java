@@ -6,7 +6,7 @@ import com.lowdragmc.lowdraglib2.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib2.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.widget.WidgetGroup;
 import dev.latvian.mods.rhino.util.RemapForJS;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -62,12 +62,12 @@ public class ItemUIJSFactory extends UIFactory<ItemUIJSFactory.ItemAccess> {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    protected ItemAccess readHolderFromSyncData(RegistryFriendlyByteBuf syncData) {
+    protected ItemAccess readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData) {
         return new ItemAccess(syncData.readEnum(InteractionHand.class), syncData.readUtf());
     }
 
     @Override
-    protected void writeHolderToSyncData(RegistryFriendlyByteBuf syncData, ItemAccess holder) {
+    protected void writeHolderToSyncData(CompatRegistryFriendlyByteBuf syncData, ItemAccess holder) {
         syncData.writeEnum(holder.hand);
         syncData.writeUtf(holder.uiName);
     }

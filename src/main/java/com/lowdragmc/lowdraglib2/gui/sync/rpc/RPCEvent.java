@@ -1,7 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.sync.rpc;
 
 import com.lowdragmc.lowdraglib2.syncdata.SyncValueHolder;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 
 import javax.annotation.Nullable;
 import java.util.function.Function;
@@ -14,7 +14,7 @@ public record RPCEvent(SyncValueHolder[] argHolders, @Nullable SyncValueHolder r
         }
     }
 
-    public void writeParametersToBuffer(RegistryFriendlyByteBuf buffer, Object[] args) {
+    public void writeParametersToBuffer(CompatRegistryFriendlyByteBuf buffer, Object[] args) {
         checkArgs(args);
         for (int i = 0; i < args.length; i++) {
             var argHolder = argHolders[i];
@@ -24,7 +24,7 @@ public record RPCEvent(SyncValueHolder[] argHolders, @Nullable SyncValueHolder r
         }
     }
 
-    public Object[] readParametersFromBuffer(RegistryFriendlyByteBuf buffer) {
+    public Object[] readParametersFromBuffer(CompatRegistryFriendlyByteBuf buffer) {
         var args = new Object[argHolders.length];
         for (int i = 0; i < argHolders.length; i++) {
             var argHolder = argHolders[i];
@@ -34,7 +34,7 @@ public record RPCEvent(SyncValueHolder[] argHolders, @Nullable SyncValueHolder r
         return args;
     }
 
-    public void writeReturnValueToBuffer(RegistryFriendlyByteBuf buffer, Object returnValue) {
+    public void writeReturnValueToBuffer(CompatRegistryFriendlyByteBuf buffer, Object returnValue) {
         if (returnHolder != null) {
             returnHolder.setValue(returnValue);
             returnHolder.ref.update();
@@ -42,7 +42,7 @@ public record RPCEvent(SyncValueHolder[] argHolders, @Nullable SyncValueHolder r
         }
     }
 
-    public Object readReturnValueFromBuffer(RegistryFriendlyByteBuf buffer) {
+    public Object readReturnValueFromBuffer(CompatRegistryFriendlyByteBuf buffer) {
         if (returnHolder != null) {
             returnHolder.ref.writeSyncFromStream(buffer);
             return returnHolder.getValue();

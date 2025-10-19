@@ -3,7 +3,7 @@ package com.lowdragmc.lowdraglib2.gui.factory;
 import com.lowdragmc.lowdraglib2.gui.sync.IUISyncManagerHolder;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUIContainerMenu;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
@@ -27,7 +27,7 @@ public class PlayerUIMenuType {
         UI_HOLDERS.remove(id);
     }
 
-    public static ModularUIContainerMenu create(int windowId, Inventory inv, RegistryFriendlyByteBuf data) {
+    public static ModularUIContainerMenu create(int windowId, Inventory inv, CompatRegistryFriendlyByteBuf data) {
         var id = data.readResourceLocation();
         var holder = UI_HOLDERS.get(id);
         if (holder == null) throw new IllegalArgumentException("No player ui holder found for id " + id);
@@ -59,7 +59,7 @@ public class PlayerUIMenuType {
         }
 
         @Override
-        default void writeClientSideData(AbstractContainerMenu menu, RegistryFriendlyByteBuf buffer) {
+        default void writeClientSideData(AbstractContainerMenu menu, CompatRegistryFriendlyByteBuf buffer) {
             buffer.writeResourceLocation(getUIId());
             if (menu instanceof IUISyncManagerHolder syncManagerHolder) {
                 syncManagerHolder.writeInitialData(buffer);

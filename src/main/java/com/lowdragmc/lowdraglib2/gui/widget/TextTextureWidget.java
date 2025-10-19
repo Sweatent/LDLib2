@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib2.math.Size;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.neoforged.api.distmarker.Dist;
@@ -84,7 +84,7 @@ public class TextTextureWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
+    public void writeInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.writeInitialData(buffer);
         if (!isClientSideWidget) {
             buffer.writeBoolean(true);
@@ -96,7 +96,7 @@ public class TextTextureWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    public void readInitialData(RegistryFriendlyByteBuf buffer) {
+    public void readInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.readInitialData(buffer);
         if (buffer.readBoolean()) {
             this.lastComponent = ComponentSerialization.STREAM_CODEC.decode(buffer);
@@ -117,7 +117,7 @@ public class TextTextureWidget extends Widget implements IConfigurableWidget {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == -1) {
             this.lastComponent = ComponentSerialization.STREAM_CODEC.decode(buffer);
         }

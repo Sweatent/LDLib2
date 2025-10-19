@@ -4,7 +4,7 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.factory_outdated.UIFactory;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import lombok.NoArgsConstructor;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class SPacketUIOpen implements CustomPacketPayload {
     public static final ResourceLocation ID = LDLib2.id("ui_open");
     public static final Type<SPacketUIOpen> TYPE = new Type<>(ID);
-    public static final StreamCodec<RegistryFriendlyByteBuf, SPacketUIOpen> CODEC = StreamCodec.ofMember(SPacketUIOpen::write, SPacketUIOpen::decode);
+    public static final StreamCodec<CompatRegistryFriendlyByteBuf, SPacketUIOpen> CODEC = StreamCodec.ofMember(SPacketUIOpen::write, SPacketUIOpen::decode);
     private ResourceLocation uiFactoryId;
     private byte[] serializedDta;
     private int windowId;
@@ -26,13 +26,13 @@ public class SPacketUIOpen implements CustomPacketPayload {
         this.windowId = windowId;
     }
 
-    public void write(@NotNull RegistryFriendlyByteBuf buf) {
+    public void write(@NotNull CompatRegistryFriendlyByteBuf buf) {
         buf.writeResourceLocation(uiFactoryId);
         buf.writeVarInt(windowId);
         buf.writeByteArray(serializedDta);
     }
 
-    public static SPacketUIOpen decode(RegistryFriendlyByteBuf buf) {
+    public static SPacketUIOpen decode(CompatRegistryFriendlyByteBuf buf) {
         var uiFactoryId = buf.readResourceLocation();
         var windowId = buf.readVarInt();
         var data = buf.readByteArray();

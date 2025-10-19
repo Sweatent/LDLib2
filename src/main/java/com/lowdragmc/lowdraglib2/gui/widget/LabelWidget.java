@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Setter;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -100,7 +100,7 @@ public class LabelWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
+    public void writeInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.writeInitialData(buffer);
         if (!isClientSideWidget) {
             if (this.component != null) {
@@ -118,7 +118,7 @@ public class LabelWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    public void readInitialData(RegistryFriendlyByteBuf buffer) {
+    public void readInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.readInitialData(buffer);
         if (buffer.readBoolean()) {
             this.component = ComponentSerialization.STREAM_CODEC.decode(buffer);
@@ -150,7 +150,7 @@ public class LabelWidget extends Widget implements IConfigurableWidget {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == -1) {
             this.lastTextValue = buffer.readUtf();
             updateSize();

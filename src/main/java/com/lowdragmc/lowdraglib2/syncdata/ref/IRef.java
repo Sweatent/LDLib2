@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
 import com.mojang.serialization.DynamicOps;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 
 import javax.annotation.Nullable;
 
@@ -137,14 +137,14 @@ public interface IRef<TYPE> {
     /** 
      * This method is used to read the sync changed data . see {@link SPacketAutoSyncBlockEntity#of(IAutoSyncBlockEntity, boolean)}
      */
-    default void readSyncToStream(RegistryFriendlyByteBuf buffer) {
+    default void readSyncToStream(CompatRegistryFriendlyByteBuf buffer) {
         getAccessor().readFieldToStream(buffer, this);
     }
 
     /**
      * This method is used to write the sync changed data . see {@link SPacketAutoSyncBlockEntity#processPacket(IAutoSyncBlockEntity, SPacketAutoSyncBlockEntity)}
      */
-    default void writeSyncFromStream(RegistryFriendlyByteBuf buffer) {
+    default void writeSyncFromStream(CompatRegistryFriendlyByteBuf buffer) {
         getAccessor().writeFieldFromStream(buffer, this);
     }
 }

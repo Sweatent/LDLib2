@@ -6,7 +6,7 @@ import com.lowdragmc.lowdraglib2.syncdata.ref.IRef;
 import com.lowdragmc.lowdraglib2.syncdata.var.ReadOnlyVar;
 import com.lowdragmc.lowdraglib2.syncdata.ref.ReadOnlyRef;
 import com.mojang.serialization.DynamicOps;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -33,14 +33,14 @@ public interface IReadOnlyAccessor<TYPE> extends IAccessor<TYPE> {
      * @param buffer The buffer to write.
      * @param value The internal value to read.
      */
-    void readReadOnlyValueToStream(RegistryFriendlyByteBuf buffer, @Nonnull TYPE value);
+    void readReadOnlyValueToStream(CompatRegistryFriendlyByteBuf buffer, @Nonnull TYPE value);
 
     /**
      * Write the internal value from the buffer.
      * @param buffer The buffer to read.
      * @param value The internal value to write.
      */
-    void writeReadOnlyValueFromStream(RegistryFriendlyByteBuf buffer, @Nonnull TYPE value);
+    void writeReadOnlyValueFromStream(CompatRegistryFriendlyByteBuf buffer, @Nonnull TYPE value);
 
     /**
      * Create a readonly reference with the given value.
@@ -81,7 +81,7 @@ public interface IReadOnlyAccessor<TYPE> extends IAccessor<TYPE> {
     }
 
     @Override
-    default void readFieldToStream(RegistryFriendlyByteBuf buffer, IRef<TYPE> ref) {
+    default void readFieldToStream(CompatRegistryFriendlyByteBuf buffer, IRef<TYPE> ref) {
         var value = ref.readRaw();
         if (value == null) {
             throw new IllegalArgumentException("readonly field %s has a null reference".formatted(ref.getKey()));
@@ -90,7 +90,7 @@ public interface IReadOnlyAccessor<TYPE> extends IAccessor<TYPE> {
     }
 
     @Override
-    default void writeFieldFromStream(RegistryFriendlyByteBuf buffer, IRef<TYPE> ref) {
+    default void writeFieldFromStream(CompatRegistryFriendlyByteBuf buffer, IRef<TYPE> ref) {
         var value = ref.readRaw();
         if (value == null) {
             throw new IllegalArgumentException("readonly field %s has a null reference".formatted(ref.getKey()));
