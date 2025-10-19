@@ -50,6 +50,7 @@ repositories {
 }
 
 configurations.all {
+    // Keep Gson on a version that supports configuring safe reflective access across all Gradle configurations.
     resolutionStrategy.force 'com.google.code.gson:gson:2.11.0'
 }
 

@@ -29,8 +29,12 @@ public class LDLib2 implements ModInitializer, ClientModInitializer {
     public static final String MODID_REI = "roughlyenoughitems";
     public static final String MODID_EMI = "emi";
     public static final RandomSource RANDOM = RandomSource.createThreadSafe();
-    public static final Gson GSON = new GsonBuilder().create();
+    public static final Gson GSON = gsonBuilder().create();
     private static File assetsLocation;
+
+    public static GsonBuilder gsonBuilder() {
+        return new GsonBuilder().disableJdkUnsafe();
+    }
 
     @Override
     public void onInitialize() {

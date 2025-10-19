@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.utils;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
+import com.lowdragmc.lowdraglib2.LDLib2;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
 
@@ -16,7 +17,7 @@ import java.nio.file.*;
  */
 @UtilityClass
 public final class FileUtility {
-    public static final Gson GSON_PRETTY = new GsonBuilder().setPrettyPrinting().create();
+    public static final Gson GSON_PRETTY = LDLib2.gsonBuilder().setPrettyPrinting().create();
 
     public static String readInputStream(InputStream inputStream) throws IOException {
         byte[] streamData = IOUtils.toByteArray(inputStream);
