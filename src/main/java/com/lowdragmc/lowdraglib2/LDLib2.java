@@ -2,25 +2,24 @@ package com.lowdragmc.lowdraglib2;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lowdragmc.lowdraglib2.client.ClientEventListener;
 import com.lowdragmc.lowdraglib2.client.ClientProxy;
+import com.lowdragmc.lowdraglib2.CommonListeners;
+import com.lowdragmc.lowdraglib2.CommonProxy;
 import com.lowdragmc.lowdraglib2.core.mixins.MixinPluginShared;
 import com.lowdragmc.lowdraglib2.integration.emi.EMIPlugin;
 import com.lowdragmc.lowdraglib2.integration.rei.REIPlugin;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.ModInitializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-@Mod(LDLib2.MOD_ID)
-public class LDLib2 {
+public class LDLib2 implements ModInitializer, ClientModInitializer {
     public static final String MOD_ID = "ldlib2";
     public static final String NAME = "LowDragLib2";
     public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
@@ -33,13 +32,18 @@ public class LDLib2 {
     public static final Gson GSON = new GsonBuilder().create();
     private static File assetsLocation;
 
-    public LDLib2(IEventBus eventBus, ModContainer modContainer) {
-        LDLib2.init();
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-            new ClientProxy(eventBus);
-        } else {
-            new CommonProxy(eventBus);
-        }
+    @Override
+    public void onInitialize() {
+        init();
+        Platform.init();
+        CommonProxy.init();
+        CommonListeners.init();
+    }
+
+    @Override
+    public void onInitializeClient() {
+        ClientProxy.init();
+        ClientEventListener.init();
     }
 
     public static void init() {
@@ -128,3 +132,4 @@ public class LDLib2 {
     }
 
 }
+import java.io.File;
