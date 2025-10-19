@@ -13,7 +13,7 @@ import com.mojang.blaze3d.vertex.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
@@ -458,7 +458,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 	}
 
 	@Override
-	public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+	public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
 		if (id == -1) {
 			setColor(buffer.readVarInt());
 		} else {
@@ -467,7 +467,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 	}
 
 	@Override
-	public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+	public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
 		if (id == -1) {
 			setColor(buffer.readVarInt());
 		} else {

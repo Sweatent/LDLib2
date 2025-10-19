@@ -10,7 +10,7 @@ import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -127,7 +127,7 @@ public class SearchComponentWidget<T> extends WidgetGroup {
     }
 
     @Override
-    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == -1) {
             popUp.clearAllWidgets();
             popUp.setSize(Size.of(getSize().width, 0));
@@ -211,14 +211,14 @@ public class SearchComponentWidget<T> extends WidgetGroup {
         /**
          * just used for server side
          */
-        default void serialize(T value, RegistryFriendlyByteBuf buf) {
+        default void serialize(T value, CompatRegistryFriendlyByteBuf buf) {
             buf.writeUtf(resultDisplay(value));
         }
 
         /**
          * just used for server side
          */
-        default T deserialize(RegistryFriendlyByteBuf buf) {
+        default T deserialize(CompatRegistryFriendlyByteBuf buf) {
             return (T) buf.readUtf();
         }
     }

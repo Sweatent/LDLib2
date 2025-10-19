@@ -4,7 +4,7 @@ import com.lowdragmc.lowdraglib2.gui.texture.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectFunction;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -40,7 +40,7 @@ public class CycleButtonWidget extends Widget {
     }
 
     @Override
-    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
+    public void writeInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.writeInitialData(buffer);
         if (indexSupplier != null) {
             index = indexSupplier.getAsInt();
@@ -49,7 +49,7 @@ public class CycleButtonWidget extends Widget {
     }
 
     @Override
-    public void readInitialData(RegistryFriendlyByteBuf buffer) {
+    public void readInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.readInitialData(buffer);
         index = buffer.readVarInt();
         setBackground(texture.get(index));
@@ -100,7 +100,7 @@ public class CycleButtonWidget extends Widget {
     }
 
     @Override
-    public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+    public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
         super.handleClientAction(id, buffer);
         if (id == 1) {
             index = buffer.readVarInt();
@@ -112,7 +112,7 @@ public class CycleButtonWidget extends Widget {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == 1) {
             index = buffer.readVarInt();
             setBackground(texture.get(index));

@@ -16,7 +16,7 @@ import com.mojang.blaze3d.vertex.*;
 import dev.emi.emi.api.stack.EmiStack;
 import lombok.Getter;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
@@ -478,7 +478,7 @@ public class SceneWidget extends WidgetGroup {
     }
 
     @Override
-    public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+    public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == -1) {
             selectedPosFace = new BlockPosFace(buffer.readBlockPos(), buffer.readEnum(Direction.class));
             if (onSelected != null) {

@@ -9,7 +9,7 @@ import dev.latvian.mods.kubejs.level.BlockContainerJS;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
@@ -68,12 +68,12 @@ public class BlockUIJSFactory extends UIFactory<BlockUIJSFactory.BlockAccess> {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    protected BlockAccess readHolderFromSyncData(RegistryFriendlyByteBuf syncData) {
+    protected BlockAccess readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData) {
         return new BlockAccess(syncData.readBlockPos(), syncData.readUtf());
     }
 
     @Override
-    protected void writeHolderToSyncData(RegistryFriendlyByteBuf syncData, BlockAccess holder) {
+    protected void writeHolderToSyncData(CompatRegistryFriendlyByteBuf syncData, BlockAccess holder) {
         syncData.writeBlockPos(holder.pos());
         syncData.writeUtf(holder.uiName());
     }

@@ -20,7 +20,7 @@ import dev.latvian.mods.rhino.util.RemapPrefixForJS;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
@@ -353,10 +353,10 @@ public class Widget {
         initialized = true;
     }
 
-    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
+    public void writeInitialData(CompatRegistryFriendlyByteBuf buffer) {
     }
 
-    public void readInitialData(RegistryFriendlyByteBuf buffer) {
+    public void readInitialData(CompatRegistryFriendlyByteBuf buffer) {
         
     }
     
@@ -554,23 +554,23 @@ public class Widget {
      * Read data received from server's {@link #writeUpdateInfo}
      */
     @OnlyIn(Dist.CLIENT)
-    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
     }
 
-    public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+    public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
     }
 
     /**
      * Writes data to be sent to client's {@link #readUpdateInfo}
      */
-    protected final void writeUpdateInfo(int id, Consumer<RegistryFriendlyByteBuf> buffer) {
+    protected final void writeUpdateInfo(int id, Consumer<CompatRegistryFriendlyByteBuf> buffer) {
         if (uiAccess != null && gui != null) {
             uiAccess.writeUpdateInfo(this, id, buffer);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected final void writeClientAction(int id, Consumer<RegistryFriendlyByteBuf> buffer) {
+    protected final void writeClientAction(int id, Consumer<CompatRegistryFriendlyByteBuf> buffer) {
         if (uiAccess != null && !isClientSideWidget) {
             uiAccess.writeClientAction(this, id, buffer);
         }

@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -64,7 +64,7 @@ public abstract class UIFactory<T> {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public final void initClientUI(RegistryFriendlyByteBuf serializedHolder, int windowId) {
+    public final void initClientUI(CompatRegistryFriendlyByteBuf serializedHolder, int windowId) {
         T holder = readHolderFromSyncData(serializedHolder);
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer entityPlayer = minecraft.player;
@@ -81,8 +81,8 @@ public abstract class UIFactory<T> {
     protected abstract ModularUI createUITemplate(T holder, Player entityPlayer);
 
     @OnlyIn(Dist.CLIENT)
-    protected abstract T readHolderFromSyncData(RegistryFriendlyByteBuf syncData);
+    protected abstract T readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData);
 
-    protected abstract void writeHolderToSyncData(RegistryFriendlyByteBuf syncData, T holder);
+    protected abstract void writeHolderToSyncData(CompatRegistryFriendlyByteBuf syncData, T holder);
 
 }

@@ -4,7 +4,7 @@ import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib2.gui.modular.ModularUI;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -28,13 +28,13 @@ public class BlockEntityUIFactory extends UIFactory<BlockEntity> {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    protected BlockEntity readHolderFromSyncData(RegistryFriendlyByteBuf syncData) {
+    protected BlockEntity readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData) {
         Level world = Minecraft.getInstance().level;
         return world == null ? null : world.getBlockEntity(syncData.readBlockPos());
     }
 
     @Override
-    protected void writeHolderToSyncData(RegistryFriendlyByteBuf syncData, BlockEntity holder) {
+    protected void writeHolderToSyncData(CompatRegistryFriendlyByteBuf syncData, BlockEntity holder) {
         syncData.writeBlockPos(holder.getBlockPos());
     }
 }

@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib2.networking.s2c.SPacketUIRPCEventReturn;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import com.lowdragmc.lowdraglib2.utils.IdentityMap;
 import lombok.Getter;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.function.Consumers;
@@ -74,22 +74,22 @@ public class UISyncManager {
         }
     }
 
-    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
+    public void writeInitialData(CompatRegistryFriendlyByteBuf buffer) {
         for (SyncValue<?> value : syncValues.values()) {
             value.update();
         }
         writePack(buffer, syncValues.values());
     }
 
-    public void readInitialData(RegistryFriendlyByteBuf data) {
+    public void readInitialData(CompatRegistryFriendlyByteBuf data) {
         handlePack(data);
     }
 
-    public void handleSyncPacket(RegistryFriendlyByteBuf data) {
+    public void handleSyncPacket(CompatRegistryFriendlyByteBuf data) {
         handlePack(data);
     }
 
-    private void writePack(RegistryFriendlyByteBuf buf, Collection<SyncValue<?>> syncValues) {
+    private void writePack(CompatRegistryFriendlyByteBuf buf, Collection<SyncValue<?>> syncValues) {
         buf.writeVarInt(syncValues.size());
         for (var syncValue : syncValues) {
             buf.writeVarInt(this.syncValues.getID(syncValue));
@@ -98,7 +98,7 @@ public class UISyncManager {
         }
     }
 
-    private void handlePack(RegistryFriendlyByteBuf buf) {
+    private void handlePack(CompatRegistryFriendlyByteBuf buf) {
         var size = buf.readVarInt();
         for (int i = 0; i < size; i++) {
             var id = buf.readVarInt();
@@ -149,7 +149,7 @@ public class UISyncManager {
         PacketDistributor.sendToServer(new CPacketUIRPCEvent(data));
     }
 
-    public void handEvent(RegistryFriendlyByteBuf buf) {
+    public void handEvent(CompatRegistryFriendlyByteBuf buf) {
         var player = modularUI.player;
         if (!(player instanceof ServerPlayer serverPlayer)) throw new IllegalStateException("Cannot send event to non server player");
 
@@ -179,7 +179,7 @@ public class UISyncManager {
         }
     }
 
-    public void handEventReturn(RegistryFriendlyByteBuf buf) {
+    public void handEventReturn(CompatRegistryFriendlyByteBuf buf) {
         var eventID = buf.readVarInt();
         var responseID = buf.readVarInt();
         var rpcEvent = rpcEvents.getValue(eventID);

@@ -10,7 +10,7 @@ import com.lowdragmc.lowdraglib2.networking.s2c.SPacketUIWidgetUpdate;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import lombok.Getter;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -246,7 +246,7 @@ public class ModularUIContainer extends AbstractContainerMenu implements WidgetU
     }
 
     @Override
-    public void writeClientAction(Widget widget, int updateId, Consumer<RegistryFriendlyByteBuf> payloadWriter) {
+    public void writeClientAction(Widget widget, int updateId, Consumer<CompatRegistryFriendlyByteBuf> payloadWriter) {
         if (modularUI.entityPlayer instanceof AbstractClientPlayer) {
             PacketDistributor.sendToServer(new CPacketUIClientAction(containerId, ByteBufUtil.writeCustomData(buf -> {
                 buf.writeVarInt(updateId);
@@ -256,7 +256,7 @@ public class ModularUIContainer extends AbstractContainerMenu implements WidgetU
     }
 
     @Override
-    public void writeUpdateInfo(Widget widget, int updateId, Consumer<RegistryFriendlyByteBuf> payloadWriter) {
+    public void writeUpdateInfo(Widget widget, int updateId, Consumer<CompatRegistryFriendlyByteBuf> payloadWriter) {
         if (modularUI.entityPlayer instanceof ServerPlayer serverPlayer) {
             PacketDistributor.sendToPlayer(serverPlayer, new SPacketUIWidgetUpdate(containerId, ByteBufUtil.writeCustomData(buf -> {
                 buf.writeVarInt(updateId);

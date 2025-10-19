@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +29,7 @@ import java.util.Objects;
 public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPacketPayload {
     public static final ResourceLocation ID = LDLib2.id("rpc_method_payload");
     public static final Type<PacketRPCBlockEntity> TYPE = new Type<>(ID);
-    public static final StreamCodec<RegistryFriendlyByteBuf, PacketRPCBlockEntity> CODEC = StreamCodec.ofMember(PacketRPCBlockEntity::write, PacketRPCBlockEntity::decode);
+    public static final StreamCodec<CompatRegistryFriendlyByteBuf, PacketRPCBlockEntity> CODEC = StreamCodec.ofMember(PacketRPCBlockEntity::write, PacketRPCBlockEntity::decode);
 
     private BlockEntityType<?> blockEntityType;
 
@@ -80,7 +80,7 @@ public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPac
     }
 
     @Override
-    public void write(RegistryFriendlyByteBuf buf) {
+    public void write(CompatRegistryFriendlyByteBuf buf) {
         super.write(buf);
         buf.writeVarInt(this.managedId);
         buf.writeResourceLocation(Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntityType)));
@@ -88,7 +88,7 @@ public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPac
         buf.writeByteArray(data);
     }
 
-    public static PacketRPCBlockEntity decode(RegistryFriendlyByteBuf buffer) {
+    public static PacketRPCBlockEntity decode(CompatRegistryFriendlyByteBuf buffer) {
         var pos = buffer.readBlockPos();
         var managedId = buffer.readVarInt();
         var blockEntityType = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(buffer.readResourceLocation());

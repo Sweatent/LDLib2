@@ -5,7 +5,7 @@ import com.lowdragmc.lowdraglib2.syncdata.field.ManagedKey;
 import com.lowdragmc.lowdraglib2.syncdata.ref.IManagedReadOnlyRef;
 import com.lowdragmc.lowdraglib2.syncdata.var.ReadOnlyVar;
 import com.mojang.serialization.DynamicOps;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 public class IManagedObjectAccessor implements IReadOnlyAccessor<IManaged> {
@@ -26,12 +26,12 @@ public class IManagedObjectAccessor implements IReadOnlyAccessor<IManaged> {
     }
 
     @Override
-    public void readReadOnlyValueToStream(RegistryFriendlyByteBuf buffer, @NotNull IManaged value) {
+    public void readReadOnlyValueToStream(CompatRegistryFriendlyByteBuf buffer, @NotNull IManaged value) {
         throw new UnsupportedOperationException("Not implemented");
     }
 
     @Override
-    public void writeReadOnlyValueFromStream(RegistryFriendlyByteBuf buffer, @NotNull IManaged value) {
+    public void writeReadOnlyValueFromStream(CompatRegistryFriendlyByteBuf buffer, @NotNull IManaged value) {
         throw new UnsupportedOperationException("Not implemented");
     }
 

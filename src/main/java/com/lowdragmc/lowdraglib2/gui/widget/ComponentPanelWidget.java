@@ -5,7 +5,7 @@ import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.chat.*;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -103,7 +103,7 @@ public class ComponentPanelWidget extends Widget {
     }
 
     @Override
-    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
+    public void writeInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.writeInitialData(buffer);
         buffer.writeVarInt(lastText.size());
         for (Component textComponent : lastText) {
@@ -112,7 +112,7 @@ public class ComponentPanelWidget extends Widget {
     }
 
     @Override
-    public void readInitialData(RegistryFriendlyByteBuf buffer) {
+    public void readInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.readInitialData(buffer);
         readUpdateInfo(1, buffer);
     }
@@ -163,7 +163,7 @@ public class ComponentPanelWidget extends Widget {
     }
 
     @Override
-    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == 1) {
             this.lastText.clear();
             int count = buffer.readVarInt();
@@ -176,7 +176,7 @@ public class ComponentPanelWidget extends Widget {
     }
 
     @Override
-    public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+    public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == 1) {
             ClickData clickData = ClickData.readFromBuf(buffer);
             String componentData = buffer.readUtf();

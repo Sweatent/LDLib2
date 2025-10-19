@@ -2,7 +2,7 @@ package com.lowdragmc.lowdraglib2.networking;
 
 import lombok.NoArgsConstructor;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 /**
@@ -16,7 +16,7 @@ public abstract class PacketIntLocation implements CustomPacketPayload {
         this.pos = pos;
     }
 
-    public void write(RegistryFriendlyByteBuf buf) {
+    public void write(CompatRegistryFriendlyByteBuf buf) {
         buf.writeBlockPos(pos);
     }
 }

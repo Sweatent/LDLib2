@@ -4,7 +4,7 @@ import com.lowdragmc.lowdraglib2.Platform;
 import com.mojang.serialization.DynamicOps;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,12 +29,12 @@ public class INBTSerializableReadOnlyAccessor implements IReadOnlyAccessor<INBTS
     }
 
     @Override
-    public void readReadOnlyValueToStream(RegistryFriendlyByteBuf buffer, @NotNull INBTSerializable<?> value) {
+    public void readReadOnlyValueToStream(CompatRegistryFriendlyByteBuf buffer, @NotNull INBTSerializable<?> value) {
         buffer.writeNbt(value.serializeNBT(buffer.registryAccess()));
     }
 
     @Override
-    public void writeReadOnlyValueFromStream(RegistryFriendlyByteBuf buffer, @NotNull INBTSerializable<?> value) {
+    public void writeReadOnlyValueFromStream(CompatRegistryFriendlyByteBuf buffer, @NotNull INBTSerializable<?> value) {
         var nbt = buffer.readNbt();
         if (nbt != null) {
             ((INBTSerializable)value).deserializeNBT(buffer.registryAccess(), nbt);

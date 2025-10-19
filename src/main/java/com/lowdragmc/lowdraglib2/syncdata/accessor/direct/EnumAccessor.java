@@ -6,7 +6,7 @@ import com.lowdragmc.lowdraglib2.syncdata.ref.DirectRef;
 import com.lowdragmc.lowdraglib2.syncdata.var.IVar;
 import com.lowdragmc.lowdraglib2.syncdata.ref.UniqueDirectRef;
 import com.mojang.serialization.DynamicOps;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,12 +66,12 @@ public class EnumAccessor implements IDirectAccessor<Enum<?>> {
     }
 
     @Override
-    public void readDirectVarToStream(RegistryFriendlyByteBuf buffer, IVar<Enum<?>> var) {
+    public void readDirectVarToStream(CompatRegistryFriendlyByteBuf buffer, IVar<Enum<?>> var) {
         buffer.writeVarInt(var.value().ordinal());
     }
 
     @Override
-    public void writeDirectVarFromStream(RegistryFriendlyByteBuf buffer, IVar<Enum<?>> var) {
+    public void writeDirectVarFromStream(CompatRegistryFriendlyByteBuf buffer, IVar<Enum<?>> var) {
         var.set(var.getType().getEnumConstants()[buffer.readVarInt()]);
     }
 

@@ -11,7 +11,7 @@ import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ResourceLocationException;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import dev.latvian.mods.rhino.util.RemapForJS;
@@ -190,13 +190,13 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
+    public void writeInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.writeInitialData(buffer);
         buffer.writeUtf(getCurrentString());
     }
 
     @Override
-    public void readInitialData(RegistryFriendlyByteBuf buffer) {
+    public void readInitialData(CompatRegistryFriendlyByteBuf buffer) {
         super.readInitialData(buffer);
         setCurrentString(buffer.readUtf());
     }
@@ -212,7 +212,7 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         super.readUpdateInfo(id, buffer);
         if (id == 1) {
             setCurrentString(buffer.readUtf());
@@ -237,7 +237,7 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+    public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
         super.handleClientAction(id, buffer);
         if (id == 1) {
             String lastText = getCurrentString();

@@ -14,7 +14,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import lombok.Getter;
 import lombok.Setter;
 import mezz.jei.api.ingredients.ITypedIngredient;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
@@ -166,7 +166,7 @@ public class PhantomSlotWidget extends SlotWidget implements IGhostIngredientTar
     }
 
     @Override
-    public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+    public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (slotReference != null && id == 1) {
             ItemStack stackHeld = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
             int mouseButton = buffer.readVarInt();

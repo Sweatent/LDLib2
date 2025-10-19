@@ -5,7 +5,7 @@ import com.lowdragmc.lowdraglib2.gui.modular.ModularUIContainer;
 import com.lowdragmc.lowdraglib2.gui.sync.IUISyncManagerHolder;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import lombok.NoArgsConstructor;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -16,18 +16,18 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 public class CPacketUIRPCEvent implements CustomPacketPayload {
     public static final ResourceLocation ID = LDLib2.id("ui_rpc_event");
     public static final Type<CPacketUIRPCEvent> TYPE = new Type<>(ID);
-    public static final StreamCodec<RegistryFriendlyByteBuf, CPacketUIRPCEvent> CODEC = StreamCodec.ofMember(CPacketUIRPCEvent::write, CPacketUIRPCEvent::decode);
+    public static final StreamCodec<CompatRegistryFriendlyByteBuf, CPacketUIRPCEvent> CODEC = StreamCodec.ofMember(CPacketUIRPCEvent::write, CPacketUIRPCEvent::decode);
     public byte[] eventData;
 
     public CPacketUIRPCEvent(byte[] eventData) {
         this.eventData = eventData;
     }
 
-    public void write(RegistryFriendlyByteBuf buf) {
+    public void write(CompatRegistryFriendlyByteBuf buf) {
         buf.writeByteArray(eventData);
     }
 
-    public static CPacketUIRPCEvent decode(RegistryFriendlyByteBuf buf) {
+    public static CPacketUIRPCEvent decode(CompatRegistryFriendlyByteBuf buf) {
         var eventData = buf.readByteArray();
         return new CPacketUIRPCEvent(eventData);
     }

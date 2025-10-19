@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib2.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib2.gui.util.TreeNode;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import lombok.Setter;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.Util;
@@ -161,7 +161,7 @@ public class DialogWidget extends WidgetGroup {
     }
 
     @Override
-    public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+    public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
         super.handleClientAction(id, buffer);
         if (id == -1) {
             close();

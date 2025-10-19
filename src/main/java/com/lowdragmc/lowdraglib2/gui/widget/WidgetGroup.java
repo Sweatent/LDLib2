@@ -20,7 +20,7 @@ import dev.latvian.mods.rhino.util.HideFromJS;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
@@ -111,7 +111,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
+    public void writeInitialData(CompatRegistryFriendlyByteBuf buffer) {
         for (Widget widget : widgets) {
             if (widget.isInitialized() && !widget.isClientSideWidget) {
                 widget.writeInitialData(buffer);
@@ -120,7 +120,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    public void readInitialData(RegistryFriendlyByteBuf buffer) {
+    public void readInitialData(CompatRegistryFriendlyByteBuf buffer) {
         for (Widget widget : widgets) {
             if (widget.isInitialized() && !widget.isClientSideWidget) {
                 widget.readInitialData(buffer);
@@ -696,7 +696,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == 1) {
             int widgetIndex = buffer.readVarInt();
             int widgetUpdateId = buffer.readVarInt();
@@ -726,7 +726,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+    public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == 1) {
             int widgetIndex = buffer.readVarInt();
             int widgetUpdateId = buffer.readVarInt();
@@ -763,7 +763,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
         }
 
         @Override
-        public void writeClientAction(Widget widget, int updateId, Consumer<RegistryFriendlyByteBuf> dataWriter) {
+        public void writeClientAction(Widget widget, int updateId, Consumer<CompatRegistryFriendlyByteBuf> dataWriter) {
             WidgetGroup.this.writeClientAction(1, buffer -> {
                 buffer.writeVarInt(widgets.indexOf(widget));
                 buffer.writeVarInt(updateId);
@@ -772,7 +772,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
         }
 
         @Override
-        public void writeUpdateInfo(Widget widget, int updateId, Consumer<RegistryFriendlyByteBuf> dataWriter) {
+        public void writeUpdateInfo(Widget widget, int updateId, Consumer<CompatRegistryFriendlyByteBuf> dataWriter) {
             WidgetGroup.this.writeUpdateInfo(1, buffer -> {
                 buffer.writeVarInt(widgets.indexOf(widget));
                 buffer.writeVarInt(updateId);

@@ -11,7 +11,7 @@ import com.lowdragmc.lowdraglib2.syncdata.var.ReadOnlyVar;
 import com.lowdragmc.lowdraglib2.utils.LDLibExtraCodecs;
 import com.mojang.serialization.DynamicOps;
 import lombok.Getter;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
@@ -105,7 +105,7 @@ public class ArrayAccessor<TYPE, TYPE_ARRAY> implements IArrayLikeAccessor<TYPE,
     }
 
     @Override
-    public void readFieldToStream(RegistryFriendlyByteBuf buffer, IRef<TYPE_ARRAY> ref) {
+    public void readFieldToStream(CompatRegistryFriendlyByteBuf buffer, IRef<TYPE_ARRAY> ref) {
         var arrayRef = (IArrayRef<TYPE, TYPE_ARRAY>) ref;
         if (isReadOnly()) {
             var refs = arrayRef.getRefs();
@@ -124,7 +124,7 @@ public class ArrayAccessor<TYPE, TYPE_ARRAY> implements IArrayLikeAccessor<TYPE,
         }
     }
 
-    private void writeListField(RegistryFriendlyByteBuf buffer, IRef<TYPE>[] refs) {
+    private void writeListField(CompatRegistryFriendlyByteBuf buffer, IRef<TYPE>[] refs) {
         buffer.writeVarInt(refs.length);
         for (IRef<TYPE> typeiRef : refs) {
             typeiRef.readSyncToStream(buffer);
@@ -132,7 +132,7 @@ public class ArrayAccessor<TYPE, TYPE_ARRAY> implements IArrayLikeAccessor<TYPE,
     }
 
     @Override
-    public void writeFieldFromStream(RegistryFriendlyByteBuf buffer, IRef<TYPE_ARRAY> ref) {
+    public void writeFieldFromStream(CompatRegistryFriendlyByteBuf buffer, IRef<TYPE_ARRAY> ref) {
         var arrayRef = (IArrayRef<TYPE, TYPE_ARRAY>) ref;
         if (isReadOnly()) {
             var refs = arrayRef.getRefs();
@@ -161,7 +161,7 @@ public class ArrayAccessor<TYPE, TYPE_ARRAY> implements IArrayLikeAccessor<TYPE,
         }
     }
 
-    private void readListField(RegistryFriendlyByteBuf buffer, IRef<TYPE>[] refs) {
+    private void readListField(CompatRegistryFriendlyByteBuf buffer, IRef<TYPE>[] refs) {
         for (IRef<TYPE> typeiRef : refs) {
             typeiRef.writeSyncFromStream(buffer);
         }

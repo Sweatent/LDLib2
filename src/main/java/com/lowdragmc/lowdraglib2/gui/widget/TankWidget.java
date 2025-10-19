@@ -38,7 +38,7 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import mezz.jei.api.helpers.IPlatformFluidHelper;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -495,7 +495,7 @@ public class TankWidget extends Widget implements IRecipeIngredientSlot, IConfig
     }
 
     @Override
-    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
+    public void writeInitialData(CompatRegistryFriendlyByteBuf buffer) {
         buffer.writeBoolean(fluidTank != null);
         if (fluidTank != null) {
             this.lastTankCapacity = fluidTank.getTankCapacity(tank);
@@ -507,7 +507,7 @@ public class TankWidget extends Widget implements IRecipeIngredientSlot, IConfig
     }
 
     @Override
-    public void readInitialData(RegistryFriendlyByteBuf buffer) {
+    public void readInitialData(CompatRegistryFriendlyByteBuf buffer) {
         if (buffer.readBoolean()) {
             this.lastTankCapacity = buffer.readVarInt();
             readUpdateInfo(2, buffer);
@@ -516,7 +516,7 @@ public class TankWidget extends Widget implements IRecipeIngredientSlot, IConfig
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == 0) {
             this.lastTankCapacity = buffer.readVarInt();
         } else if (id == 1) {
@@ -540,7 +540,7 @@ public class TankWidget extends Widget implements IRecipeIngredientSlot, IConfig
     }
 
     @Override
-    public void handleClientAction(int id, RegistryFriendlyByteBuf buffer) {
+    public void handleClientAction(int id, CompatRegistryFriendlyByteBuf buffer) {
         super.handleClientAction(id, buffer);
         if (id == 1) {
             boolean isShiftKeyDown = buffer.readBoolean();
