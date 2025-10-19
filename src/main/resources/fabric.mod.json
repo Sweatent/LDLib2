@@ -9,7 +9,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.lowdragmc.lowdraglib2.fabric.LDLib2Fabric"
+      "com.lowdragmc.lowdraglib2.LDLib2"
+    ],
+    "client": [
+      "com.lowdragmc.lowdraglib2.LDLib2"
     ]
   },
   "mixins": [

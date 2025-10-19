@@ -31,7 +31,7 @@ public class PlayerUIMenuType {
         var id = data.readResourceLocation();
         var holder = UI_HOLDERS.get(id);
         if (holder == null) throw new IllegalArgumentException("No player ui holder found for id " + id);
-        var menu = new ModularUIContainerMenu(LDMenuTypes.PLAYER_UI.get(), windowId, inv, holder);
+        var menu = new ModularUIContainerMenu(LDMenuTypes.PLAYER_UI, windowId, inv, holder);
         menu.readInitialData(data);
         return menu;
     }
@@ -55,7 +55,7 @@ public class PlayerUIMenuType {
         @Override
         @Nullable
         default AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-            return new ModularUIContainerMenu(LDMenuTypes.PLAYER_UI.get(), containerId, playerInventory, this);
+            return new ModularUIContainerMenu(LDMenuTypes.PLAYER_UI, containerId, playerInventory, this);
         }
 
         @Override

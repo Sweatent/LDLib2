@@ -6,36 +6,31 @@ import com.lowdragmc.lowdraglib2.integration.rei.ModularDisplay;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.emi.emi.screen.RecipeScreen;
 import me.shedaniel.rei.api.client.gui.screen.DisplayScreen;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.commands.CommandSourceStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
-import net.neoforged.neoforge.client.event.ScreenEvent;
 
 import java.util.List;
 
-/**
- * @author KilaBash
- * @date 2022/5/12
- * @implNote EventListener
- */
-@EventBusSubscriber(modid = LDLib2.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
-@OnlyIn(Dist.CLIENT)
-public class ClientEventListener {
+public final class ClientEventListener {
 
-    @SubscribeEvent
-    public static void onRegisterClientCommands(RegisterClientCommandsEvent event) {
-        var dispatcher = event.getDispatcher();
-        List<LiteralArgumentBuilder<CommandSourceStack>> commands = ClientCommands.createClientCommands();
-        commands.forEach(dispatcher::register);
+    private ClientEventListener() {
     }
 
-    @SubscribeEvent
-    public static void onScreenClosed(ScreenEvent.Closing event) {
+    public static void init() {
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            List<LiteralArgumentBuilder<CommandSourceStack>> commands = ClientCommands.createClientCommands();
+            commands.forEach(dispatcher::register);
+        });
+
+        ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) ->
+                ScreenEvents.remove(screen).register(() -> onScreenClosed(screen)));
+    }
+
+    private static void onScreenClosed(Screen screen) {
         if (LDLib2.isReiLoaded()) {
-            if (event.getScreen() instanceof DisplayScreen && !ModularDisplay.CACHE_OPENED.isEmpty()) {
+            if (screen instanceof DisplayScreen && !ModularDisplay.CACHE_OPENED.isEmpty()) {
                 synchronized (ModularDisplay.CACHE_OPENED) {
                     ModularDisplay.CACHE_OPENED.forEach(modular -> modular.modularUI.triggerCloseListeners());
                     ModularDisplay.CACHE_OPENED.clear();
@@ -43,7 +38,7 @@ public class ClientEventListener {
             }
         }
         if (LDLib2.isEmiLoaded()) {
-            if (event.getScreen() instanceof RecipeScreen && !ModularEmiRecipe.CACHE_OPENED.isEmpty()) {
+            if (screen instanceof RecipeScreen && !ModularEmiRecipe.CACHE_OPENED.isEmpty()) {
                 synchronized (ModularEmiRecipe.CACHE_OPENED) {
                     ModularEmiRecipe.CACHE_OPENED.forEach(modular -> modular.modularUI.triggerCloseListeners());
                     ModularEmiRecipe.CACHE_OPENED.clear();

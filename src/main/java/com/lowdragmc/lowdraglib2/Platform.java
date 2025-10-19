@@ -1,15 +1,12 @@
 package com.lowdragmc.lowdraglib2;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.fml.loading.FMLLoader;
-import net.neoforged.neoforge.data.loading.DatagenModLoader;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.nio.file.Path;
@@ -32,36 +29,56 @@ public class Platform {
     public static RegistryAccess FROZEN_REGISTRY_ACCESS = BLANK;
 
 
+    private static MinecraftServer currentServer;
+    private static boolean lifecycleBound;
+
+    public static void init() {
+        if (lifecycleBound) {
+            return;
+        }
+        lifecycleBound = true;
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            currentServer = server;
+            FROZEN_REGISTRY_ACCESS = server.registryAccess();
+        });
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            if (currentServer == server) {
+                currentServer = null;
+            }
+            FROZEN_REGISTRY_ACCESS = null;
+        });
+    }
+
     public static String platformName() {
-        return "NeoForge";
+        return "Fabric";
     }
 
     public static boolean isForge() {
-        return true;
+        return false;
     }
 
     public static boolean isDevEnv() {
-        return !FMLLoader.isProduction();
+        return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 
     public static boolean isDatagen() {
-        return DatagenModLoader.isRunningDataGen();
+        return Boolean.getBoolean("fabric-api.datagen");
     }
 
     public static boolean isModLoaded(String modId) {
-        return ModList.get().isLoaded(modId);
+        return FabricLoader.getInstance().isModLoaded(modId);
     }
 
     public static boolean isClient() {
-        return FMLEnvironment.dist == Dist.CLIENT;
+        return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
     }
 
     public static MinecraftServer getMinecraftServer() {
-        return ServerLifecycleHooks.getCurrentServer();
+        return currentServer;
     }
 
     public static Path getGamePath() {
-        return FMLLoader.getGamePath();
+        return FabricLoader.getInstance().getGameDir();
     }
 
     public static RegistryAccess getFrozenRegistry() {

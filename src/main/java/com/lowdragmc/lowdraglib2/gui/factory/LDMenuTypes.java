@@ -2,22 +2,19 @@ package com.lowdragmc.lowdraglib2.gui.factory;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.ui.ModularUIContainerMenu;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
-import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.function.Supplier;
 
 public final class LDMenuTypes {
-    public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(BuiltInRegistries.MENU, LDLib2.MOD_ID);
+    public static final ExtendedScreenHandlerType<ModularUIContainerMenu> PLAYER_UI =
+            new ExtendedScreenHandlerType<>(PlayerUIMenuType::create);
 
-    // For some DeferredRegister<MenuType<?>> REGISTER
-    public static final Supplier<MenuType<ModularUIContainerMenu>> PLAYER_UI = MENUS.register("player_ui",
-            () -> IMenuTypeExtension.create(PlayerUIMenuType::create));
+    private LDMenuTypes() {
+    }
 
-    public static void init(IEventBus eventBus) {
-        MENUS.register(eventBus);
+    public static void init() {
+        Registry.register(Registries.MENU, LDLib2.id("player_ui"), PLAYER_UI);
     }
 }
