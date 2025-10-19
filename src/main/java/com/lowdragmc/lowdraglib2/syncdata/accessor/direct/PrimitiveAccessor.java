@@ -10,7 +10,7 @@ import com.mojang.serialization.codecs.PrimitiveCodec;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import com.lowdragmc.lowdraglib2.networking.compat.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 
 @Getter

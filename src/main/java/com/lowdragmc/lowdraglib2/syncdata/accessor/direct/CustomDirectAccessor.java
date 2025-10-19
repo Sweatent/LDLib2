@@ -12,7 +12,7 @@ import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JavaOps;
 import lombok.Getter;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import com.lowdragmc.lowdraglib2.networking.compat.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

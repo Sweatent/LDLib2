@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import lombok.Data;
 import net.minecraft.Util;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import com.lowdragmc.lowdraglib2.networking.compat.StreamCodec;
 
 import java.util.List;
 import java.util.Objects;
