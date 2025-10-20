@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.editor.ui.view;
 import com.lowdragmc.lowdraglib2.configurator.IConfigurable;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import com.lowdragmc.lowdraglib2.editor.ui.Editor;
 import com.lowdragmc.lowdraglib2.editor.ui.View;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
@@ -10,7 +11,6 @@ import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.appliedenergistics.yoga.YogaDisplay;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.appliedenergistics.yoga.YogaGutter;
@@ -92,7 +92,7 @@ public class InspectorView extends View {
                 if (listener != null) {
                     listener.accept(configurator);
                 }
-                if (configurable instanceof INBTSerializable<?> serializable) {
+                if (configurable instanceof CompoundTagSerializable serializable) {
                     var notifyName = configurator.getNotifyName();
                     var recordHistory = editor.historyView.recordSerializableObject(notifyName.getString().isEmpty() ?
                                     Component.literal(configurable.getConfigurableName()) : notifyName,
@@ -105,7 +105,7 @@ public class InspectorView extends View {
             }
         });
 
-        if (configurable instanceof INBTSerializable<?> serializable) {
+        if (configurable instanceof CompoundTagSerializable serializable) {
             editor.historyView.recordSerializableObject(Component.translatable("editor.inspector.history", configurable.getConfigurableName()), serializable, configurable)
                     .setOnExecute(value -> {
                         clear();

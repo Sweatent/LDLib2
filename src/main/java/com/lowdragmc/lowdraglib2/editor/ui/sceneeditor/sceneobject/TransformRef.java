@@ -1,12 +1,12 @@
 package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject;
 
 import com.lowdragmc.lowdraglib2.math.Transform;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.StringTag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.UnknownNullability;
 
 import javax.annotation.Nullable;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TransformRef implements INBTSerializable<StringTag> {
+public class TransformRef implements CompoundTagSerializable {
     @Nullable
     @Getter @Setter
     private UUID transformId = null;
@@ -46,21 +46,41 @@ public class TransformRef implements INBTSerializable<StringTag> {
     }
 
     @Override
-    public @UnknownNullability StringTag serializeNBT(HolderLookup.Provider provider) {
-        if (transformId == null) return StringTag.valueOf("");
-        return StringTag.valueOf(transformId.toString());
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+        var tag = new CompoundTag();
+        if (transformId != null) {
+            tag.putUUID("id", transformId);
+        }
+        return tag;
     }
 
     @Override
-    public void deserializeNBT(HolderLookup.Provider provider, StringTag nbt) {
-        if (nbt.getAsString().isEmpty()) {
-            transformId = null;
-        } else {
+    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
+        if (nbt.contains("id")) {
             try {
-                transformId = UUID.fromString(nbt.getAsString());
+                transformId = nbt.getUUID("id");
             } catch (Exception e) {
                 transformId = null;
             }
+            return;
+        }
+        if (nbt.contains("_value")) {
+            var legacy = nbt.get("_value");
+            if (legacy != null) {
+                var legacyValue = legacy.getAsString();
+                transformId = legacyValue.isEmpty() ? null : parseUUID(legacyValue);
+                return;
+            }
+        }
+        transformId = null;
+    }
+
+    @Nullable
+    private static UUID parseUUID(String value) {
+        try {
+            return UUID.fromString(value);
+        } catch (Exception ignored) {
+            return null;
         }
     }
 

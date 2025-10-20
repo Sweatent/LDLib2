@@ -6,9 +6,9 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import java.util.function.Predicate;
  * @date 2023/2/25
  * @implNote ItemTransferList
  */
-public class ItemTransferList implements IItemHandlerModifiable, INBTSerializable<CompoundTag> {
+public class ItemTransferList implements IItemHandlerModifiable, CompoundTagSerializable {
 
     public final IItemHandlerModifiable[] transfers;
     @Setter
@@ -123,7 +123,7 @@ public class ItemTransferList implements IItemHandlerModifiable, INBTSerializabl
         var tag = new CompoundTag();
         var list = new ListTag();
         for (var transfer : transfers) {
-            if (transfer instanceof INBTSerializable<?> serializable) {
+            if (transfer instanceof CompoundTagSerializable serializable) {
                 list.add(serializable.serializeNBT(provider));
             } else {
                 LDLib2.LOGGER.warn("[ItemTransferList] internal container doesn't support serialization");
@@ -138,7 +138,7 @@ public class ItemTransferList implements IItemHandlerModifiable, INBTSerializabl
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
         var list = nbt.getList("slots", nbt.getByte("type"));
         for (int i = 0; i < list.size(); i++) {
-            if (transfers[i] instanceof INBTSerializable serializable) {
+            if (transfers[i] instanceof CompoundTagSerializable serializable) {
                 serializable.deserializeNBT(provider, list.get(i));
             } else {
                 LDLib2.LOGGER.warn("[ItemTransferList] internal container doesn't support serialization");

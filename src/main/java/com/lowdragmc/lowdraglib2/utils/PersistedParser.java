@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import com.lowdragmc.lowdraglib2.syncdata.IPersistedSerializable;
 import com.lowdragmc.lowdraglib2.syncdata.ManagedFieldUtils;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
@@ -16,7 +17,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.EndTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -131,9 +131,9 @@ public final class PersistedParser {
                     field.setAccessible(true);
                     var value = field.get(object);
                     if (value != null) {
-                        if (value instanceof INBTSerializable<?> serializable) {
-                            data = op == NbtOps.INSTANCE ? 
-                                    (T) serializable.serializeNBT(provider) : 
+                        if (value instanceof CompoundTagSerializable serializable) {
+                            data = op == NbtOps.INSTANCE ?
+                                    (T) serializable.serializeNBT(provider) :
                                     NbtOps.INSTANCE.convertTo(op, serializable.serializeNBT(provider));
                         } else {
                             var builder = op.mapBuilder();
@@ -217,12 +217,11 @@ public final class PersistedParser {
                         field.setAccessible(true);
                         var value = field.get(object);
                         if (value != null) {
-                            if (value instanceof INBTSerializable serializable) {
-                                if (op == NbtOps.INSTANCE) {
-                                    serializable.deserializeNBT(provider, (Tag) data);
-                                } else {
-                                    serializable.deserializeNBT(provider, op.convertTo(NbtOps.INSTANCE, data));
-                                }
+                            if (value instanceof CompoundTagSerializable serializable) {
+                                Tag tag = op == NbtOps.INSTANCE
+                                        ? (Tag) data
+                                        : op.convertTo(NbtOps.INSTANCE, data);
+                                serializable.deserializeNBT(provider, ensureCompound(tag));
                             } else {
                                 op.getMap(data).ifSuccess(mapData -> deserializeInternal(true, mapData, op,
                                         new HashMap<>(), ReflectionUtils.getRawType(field.getGenericType()), value, provider));
@@ -253,6 +252,17 @@ public final class PersistedParser {
             }
             serializable.afterDeserialize();
         }
+    }
+
+    private static CompoundTag ensureCompound(Tag tag) {
+        if (tag instanceof CompoundTag compoundTag) {
+            return compoundTag;
+        }
+        var wrapper = new CompoundTag();
+        if (tag != null && tag != EndTag.INSTANCE) {
+            wrapper.put("_value", tag);
+        }
+        return wrapper;
     }
 
 }

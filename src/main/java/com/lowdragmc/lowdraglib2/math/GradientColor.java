@@ -1,5 +1,6 @@
 package com.lowdragmc.lowdraglib2.math;
 
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
@@ -7,7 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.FloatTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class GradientColor implements INBTSerializable<CompoundTag> {
+public class GradientColor implements CompoundTagSerializable {
     @Getter
     protected List<Vector2f> aP;
     @Getter

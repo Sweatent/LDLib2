@@ -2,13 +2,13 @@ package com.lowdragmc.lowdraglib2.editor.resource;
 
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import lombok.Getter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResourceInstance<T> implements INBTSerializable<CompoundTag> {
+public class ResourceInstance<T> implements CompoundTagSerializable {
     public final Resource<T> resource;
     private final BuiltinResourceProvider<T> builtinProvider = new BuiltinResourceProvider<>(this);
     private final PackResourceProvider<T> packProvider = new PackResourceProvider<>(this);

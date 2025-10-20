@@ -71,7 +71,7 @@ public class AccessorRegistries {
      *   <li><code>100</code> - Medium priority, for registry types and Unique/Standalone/Final type, e.g. UUID, Block, Item, Fluid, EntityType, BlockEntityType</li>
      *   <li><code>1000</code> - Default priority, for common types, e.g. ItemStack, FluidStack</li>
      *   <li><code>1500</code> - Low priority, for read-only types, e.g., IManaged</li>
-     *   <li><code>2000</code> - Lowest priority, for abstract/interface types, e.g., INBTSerializable</li>
+     *   <li><code>2000</code> - Lowest priority, for abstract/interface types, e.g., CompoundTagSerializable</li>
      * </ul>
      */
     public static void registerAccessor(IAccessor<?> accessor, int priority) {
@@ -98,7 +98,7 @@ public class AccessorRegistries {
      *   <li><code>100</code> - Medium priority, for registry types and Unique/Standalone/Final type, e.g. UUID, Block, Item, Fluid, EntityType, BlockEntityType</li>
      *   <li><code>1000</code> - Default priority, for common types, e.g. ItemStack, FluidStack</li>
      *   <li><code>1500</code> - Low priority, for read-only types, e.g., IManaged</li>
-     *   <li><code>2000</code> - Lowest priority, for abstract/interface types, e.g., INBTSerializable</li>
+     *   <li><code>2000</code> - Lowest priority, for abstract/interface types, e.g., CompoundTagSerializable</li>
      * </ul>
      */
     public static void setPriority(int priority) {

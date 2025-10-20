@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.editor.ui.view;
 
 import com.lowdragmc.lowdraglib2.configurator.EditAction;
 import com.lowdragmc.lowdraglib2.configurator.SerializableRecordAction;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import com.lowdragmc.lowdraglib2.editor.ui.Editor;
 import com.lowdragmc.lowdraglib2.editor.ui.View;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
@@ -18,7 +19,6 @@ import com.lowdragmc.lowdraglib2.gui.ui.style.value.TextWrap;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.appliedenergistics.yoga.YogaGutter;
 
@@ -113,11 +113,11 @@ public class HistoryView extends View {
         historyUIs.clear();
     }
 
-    public <T extends INBTSerializable<?>> SerializableRecordAction<T> recordSerializableObject(Component name, T object) {
+    public <T extends CompoundTagSerializable> SerializableRecordAction<T> recordSerializableObject(Component name, T object) {
         return recordSerializableObject(name, object, null);
     }
 
-    public <T extends INBTSerializable<?>> SerializableRecordAction<T> recordSerializableObject(Component name, T object, @Nullable  Object source) {
+    public <T extends CompoundTagSerializable> SerializableRecordAction<T> recordSerializableObject(Component name, T object, @Nullable  Object source) {
         var recordAction = SerializableRecordAction.of(object);
         pushHistory(name, recordAction, source, false);
         return recordAction;

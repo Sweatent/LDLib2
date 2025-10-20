@@ -2,17 +2,17 @@ package com.lowdragmc.lowdraglib2.editor.project;
 
 import com.lowdragmc.lowdraglib2.editor.resource.Resources;
 import com.lowdragmc.lowdraglib2.editor.ui.Editor;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import javax.annotation.Nonnull;
 
 /**
  * Interface for a project in the editor.
  */
-public interface IProject extends INBTSerializable<CompoundTag> {
+public interface IProject extends CompoundTagSerializable {
     /**
      * Get Resources of this project
      */
