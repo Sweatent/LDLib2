@@ -5,6 +5,7 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 
 /**
  * A lightweight replacement for {@link net.minecraft.network.RegistryFriendlyByteBuf}
@@ -40,6 +41,10 @@ public class CompatRegistryFriendlyByteBuf extends PacketByteBuf {
 
     public static CompatRegistryFriendlyByteBuf wrap(ByteBuf buf, RegistryAccess registryAccess) {
         return new CompatRegistryFriendlyByteBuf(buf, registryAccess);
+    }
+
+    public static CompatRegistryFriendlyByteBuf wrap(RegistryFriendlyByteBuf buf) {
+        return wrap((ByteBuf) buf, buf.registryAccess());
     }
 
     public RegistryAccess registryAccess() {
