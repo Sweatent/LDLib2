@@ -9,7 +9,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.lowdragmc.lowdraglib2.networking.LDLPayloadContext;
 
 import javax.annotation.Nonnull;
 
@@ -37,7 +37,7 @@ public class PacketModularUISync implements CustomPacketPayload {
         return new PacketModularUISync(data);
     }
 
-    public static void execute(PacketModularUISync packet, IPayloadContext context) {
+    public static void execute(PacketModularUISync packet, LDLPayloadContext context) {
         if (context.player() instanceof ServerPlayer) {
             executeServer(packet, context);
         } else {
@@ -45,7 +45,7 @@ public class PacketModularUISync implements CustomPacketPayload {
         }
     }
 
-    public static void executeClient(PacketModularUISync packet, IPayloadContext context) {
+    public static void executeClient(PacketModularUISync packet, LDLPayloadContext context) {
         var player = context.player();
         if (player.containerMenu instanceof IUISyncManagerHolder syncManagerHolder) {
             ByteBufUtil.readCustomData(packet.data,
@@ -54,7 +54,7 @@ public class PacketModularUISync implements CustomPacketPayload {
         }
     }
 
-    public static void executeServer(PacketModularUISync packet, IPayloadContext context) {
+    public static void executeServer(PacketModularUISync packet, LDLPayloadContext context) {
         var player = context.player();
         if (player.containerMenu instanceof IUISyncManagerHolder syncManagerHolder) {
             ByteBufUtil.readCustomData(packet.data,

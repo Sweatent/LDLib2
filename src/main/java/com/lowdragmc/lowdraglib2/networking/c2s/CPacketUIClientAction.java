@@ -8,7 +8,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.lowdragmc.lowdraglib2.networking.LDLPayloadContext;
 
 @NoArgsConstructor
 public class CPacketUIClientAction implements CustomPacketPayload {
@@ -34,7 +34,7 @@ public class CPacketUIClientAction implements CustomPacketPayload {
         return new CPacketUIClientAction(windowId, updateData);
     }
 
-    public static void execute(CPacketUIClientAction packet, IPayloadContext context) {
+    public static void execute(CPacketUIClientAction packet, LDLPayloadContext context) {
         AbstractContainerMenu openContainer = context.player().containerMenu;
         if (openContainer instanceof ModularUIContainer) {
             ((ModularUIContainer)openContainer).handleClientAction(packet);

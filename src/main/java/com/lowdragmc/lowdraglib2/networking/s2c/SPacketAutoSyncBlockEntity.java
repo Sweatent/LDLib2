@@ -13,7 +13,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.lowdragmc.lowdraglib2.networking.LDLPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -107,7 +107,7 @@ public class SPacketAutoSyncBlockEntity extends PacketIntLocation {
         return new SPacketAutoSyncBlockEntity(blockEntityType, pos, changed, data, extra);
     }
 
-    public static void execute(SPacketAutoSyncBlockEntity packet, IPayloadContext context) {
+    public static void execute(SPacketAutoSyncBlockEntity packet, LDLPayloadContext context) {
         var level = Minecraft.getInstance().level;
         if (level != null) {
             if (level.getBlockEntity(packet.pos) instanceof IAutoSyncBlockEntity autoSyncBlockEntity) {

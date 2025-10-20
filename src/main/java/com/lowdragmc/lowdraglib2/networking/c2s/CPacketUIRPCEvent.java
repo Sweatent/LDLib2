@@ -10,7 +10,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.lowdragmc.lowdraglib2.networking.LDLPayloadContext;
 
 @NoArgsConstructor
 public class CPacketUIRPCEvent implements CustomPacketPayload {
@@ -32,7 +32,7 @@ public class CPacketUIRPCEvent implements CustomPacketPayload {
         return new CPacketUIRPCEvent(eventData);
     }
 
-    public static void execute(CPacketUIRPCEvent packet, IPayloadContext context) {
+    public static void execute(CPacketUIRPCEvent packet, LDLPayloadContext context) {
         var player = context.player();
         if (player.containerMenu instanceof IUISyncManagerHolder syncManagerHolder) {
             ByteBufUtil.readCustomData(packet.eventData,
