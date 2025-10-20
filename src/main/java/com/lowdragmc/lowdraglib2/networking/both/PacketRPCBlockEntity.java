@@ -9,7 +9,6 @@ import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +17,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -29,7 +30,7 @@ import java.util.Objects;
 public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPacketPayload {
     public static final ResourceLocation ID = LDLib2.id("rpc_method_payload");
     public static final Type<PacketRPCBlockEntity> TYPE = new Type<>(ID);
-    public static final StreamCodec<CompatRegistryFriendlyByteBuf, PacketRPCBlockEntity> CODEC = StreamCodec.ofMember(PacketRPCBlockEntity::write, PacketRPCBlockEntity::decode);
+    public static final StreamCodec<RegistryFriendlyByteBuf, PacketRPCBlockEntity> CODEC = StreamCodec.ofMember(PacketRPCBlockEntity::write, PacketRPCBlockEntity::decode);
 
     private BlockEntityType<?> blockEntityType;
 
@@ -80,20 +81,22 @@ public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPac
     }
 
     @Override
-    public void write(CompatRegistryFriendlyByteBuf buf) {
+    public void write(RegistryFriendlyByteBuf buf) {
+        CompatRegistryFriendlyByteBuf compatBuf = CompatRegistryFriendlyByteBuf.wrap(buf);
         super.write(buf);
-        buf.writeVarInt(this.managedId);
-        buf.writeResourceLocation(Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntityType)));
-        buf.writeUtf(methodName);
-        buf.writeByteArray(data);
+        compatBuf.writeVarInt(this.managedId);
+        compatBuf.writeResourceLocation(Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntityType)));
+        compatBuf.writeUtf(methodName);
+        compatBuf.writeByteArray(data);
     }
 
-    public static PacketRPCBlockEntity decode(CompatRegistryFriendlyByteBuf buffer) {
-        var pos = buffer.readBlockPos();
-        var managedId = buffer.readVarInt();
-        var blockEntityType = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(buffer.readResourceLocation());
-        var methodName = buffer.readUtf();
-        var data = buffer.readByteArray();
+    public static PacketRPCBlockEntity decode(RegistryFriendlyByteBuf buffer) {
+        CompatRegistryFriendlyByteBuf compatBuf = CompatRegistryFriendlyByteBuf.wrap(buffer);
+        var pos = compatBuf.readBlockPos();
+        var managedId = compatBuf.readVarInt();
+        var blockEntityType = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(compatBuf.readResourceLocation());
+        var methodName = compatBuf.readUtf();
+        var data = compatBuf.readByteArray();
         return new PacketRPCBlockEntity(managedId, blockEntityType, pos, methodName, data);
     }
 

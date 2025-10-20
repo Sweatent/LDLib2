@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.networking.PacketIntLocation;
 import com.lowdragmc.lowdraglib2.syncdata.blockentity.IAutoSyncBlockEntity;
 import com.lowdragmc.lowdraglib2.utils.ByteBufUtil;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.client.Minecraft;
@@ -24,7 +25,7 @@ import java.util.*;
 public class SPacketAutoSyncBlockEntity extends PacketIntLocation {
     public static final ResourceLocation ID = LDLib2.id("auto_sync_block_entity");
     public static final Type<SPacketAutoSyncBlockEntity> TYPE = new Type<>(ID);
-    public static final StreamCodec<CompatRegistryFriendlyByteBuf, SPacketAutoSyncBlockEntity> CODEC = StreamCodec.ofMember(SPacketAutoSyncBlockEntity::write, SPacketAutoSyncBlockEntity::decode);
+    public static final StreamCodec<RegistryFriendlyByteBuf, SPacketAutoSyncBlockEntity> CODEC = StreamCodec.ofMember(SPacketAutoSyncBlockEntity::write, SPacketAutoSyncBlockEntity::decode);
 
     private final BlockEntityType<?> blockEntityType;
     private final BitSet changed;
@@ -90,20 +91,22 @@ public class SPacketAutoSyncBlockEntity extends PacketIntLocation {
     }
 
     @Override
-    public void write(CompatRegistryFriendlyByteBuf buf) {
+    public void write(RegistryFriendlyByteBuf buf) {
+        CompatRegistryFriendlyByteBuf compatBuf = CompatRegistryFriendlyByteBuf.wrap(buf);
         super.write(buf);
-        buf.writeResourceLocation(Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntityType)));
-        buf.writeByteArray(changed.toByteArray());
-        buf.writeByteArray(data);
-        buf.writeNbt(extra);
+        compatBuf.writeResourceLocation(Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntityType)));
+        compatBuf.writeByteArray(changed.toByteArray());
+        compatBuf.writeByteArray(data);
+        compatBuf.writeNbt(extra);
     }
 
-    public static SPacketAutoSyncBlockEntity decode(CompatRegistryFriendlyByteBuf buffer) {
-        var pos = buffer.readBlockPos();
-        var blockEntityType = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(buffer.readResourceLocation());
-        var changed = BitSet.valueOf(buffer.readByteArray());
-        var data = buffer.readByteArray();
-        var extra = buffer.readNbt();
+    public static SPacketAutoSyncBlockEntity decode(RegistryFriendlyByteBuf buffer) {
+        CompatRegistryFriendlyByteBuf compatBuf = CompatRegistryFriendlyByteBuf.wrap(buffer);
+        var pos = compatBuf.readBlockPos();
+        var blockEntityType = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(compatBuf.readResourceLocation());
+        var changed = BitSet.valueOf(compatBuf.readByteArray());
+        var data = compatBuf.readByteArray();
+        var extra = compatBuf.readNbt();
         return new SPacketAutoSyncBlockEntity(blockEntityType, pos, changed, data, extra);
     }
 
