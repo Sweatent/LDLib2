@@ -11,7 +11,7 @@ import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf
 import com.lowdragmc.lowdraglib2.networking.compat.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.lowdragmc.lowdraglib2.networking.LDLPayloadContext;
 
 @NoArgsConstructor
 public class SPacketUIRPCEventReturn implements CustomPacketPayload {
@@ -34,7 +34,7 @@ public class SPacketUIRPCEventReturn implements CustomPacketPayload {
         return new SPacketUIRPCEventReturn(returnData);
     }
 
-    public static void execute(SPacketUIRPCEventReturn packet, IPayloadContext context) {
+    public static void execute(SPacketUIRPCEventReturn packet, LDLPayloadContext context) {
         var player = context.player();
         if (player.containerMenu instanceof IUISyncManagerHolder syncManagerHolder) {
             ByteBufUtil.readCustomData(packet.returnData,

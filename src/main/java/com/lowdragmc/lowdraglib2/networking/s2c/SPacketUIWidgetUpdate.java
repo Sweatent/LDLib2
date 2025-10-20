@@ -9,7 +9,7 @@ import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf
 import com.lowdragmc.lowdraglib2.networking.compat.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.lowdragmc.lowdraglib2.networking.LDLPayloadContext;
 
 @NoArgsConstructor
 public class SPacketUIWidgetUpdate implements CustomPacketPayload {
@@ -36,7 +36,7 @@ public class SPacketUIWidgetUpdate implements CustomPacketPayload {
         return new SPacketUIWidgetUpdate(windowId, updateData);
     }
 
-    public static void execute(SPacketUIWidgetUpdate packet, IPayloadContext context) {
+    public static void execute(SPacketUIWidgetUpdate packet, LDLPayloadContext context) {
         Screen currentScreen = Minecraft.getInstance().screen;
         if (currentScreen instanceof ModularUIGuiContainer) {
             ((ModularUIGuiContainer) currentScreen).handleWidgetUpdate(packet);

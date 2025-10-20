@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import com.lowdragmc.lowdraglib2.networking.LDLPayloadContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -58,7 +58,7 @@ public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPac
         return new PacketRPCBlockEntity(index, tile.getBlockEntityType(), tile.getCurrentPos(), methodName, data);
     }
 
-    public static void processPacket(@NotNull BlockEntity blockEntity, RPCSender sender, PacketRPCBlockEntity packet, IPayloadContext context) {
+    public static void processPacket(@NotNull BlockEntity blockEntity, RPCSender sender, PacketRPCBlockEntity packet, LDLPayloadContext context) {
         if (blockEntity.getType() != packet.blockEntityType) {
             LDLib2.LOGGER.warn("Block entity type mismatch in rpc payload packet!");
             return;
@@ -97,7 +97,7 @@ public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPac
         return new PacketRPCBlockEntity(managedId, blockEntityType, pos, methodName, data);
     }
 
-    public static void execute(PacketRPCBlockEntity packet, IPayloadContext context) {
+    public static void execute(PacketRPCBlockEntity packet, LDLPayloadContext context) {
         if (context.player() instanceof ServerPlayer) {
             executeServer(packet, context);
         } else {
@@ -105,7 +105,7 @@ public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPac
         }
     }
 
-    public static void executeClient(PacketRPCBlockEntity packet, IPayloadContext context) {
+    public static void executeClient(PacketRPCBlockEntity packet, LDLPayloadContext context) {
         if (context.player().level() == null) {
             return;
         }
@@ -116,7 +116,7 @@ public class PacketRPCBlockEntity extends PacketIntLocation implements CustomPac
         processPacket(tile, RPCSender.ofServer(), packet, context);
     }
 
-    public static void executeServer(PacketRPCBlockEntity packet, IPayloadContext context) {
+    public static void executeServer(PacketRPCBlockEntity packet, LDLPayloadContext context) {
         var player = context.player();
         if (!(player instanceof ServerPlayer serverPlayer)) {
             LDLib2.LOGGER.error("Received rpc payload packet from client with no server player!");
