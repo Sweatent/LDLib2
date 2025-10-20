@@ -12,6 +12,7 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.Dialog;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import com.lowdragmc.lowdraglib2.utils.ColorUtils;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.shaders.Program;
@@ -28,7 +29,6 @@ import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import net.minecraft.util.GsonHelper;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.appliedenergistics.yoga.YogaAlign;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.jetbrains.annotations.UnknownNullability;
@@ -43,7 +43,7 @@ import java.util.function.Supplier;
 
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX_COLOR;
 
-public class LDShaderInstance extends ShaderInstance implements ILDShaderInstance, IConfigurable, INBTSerializable<CompoundTag> {
+public class LDShaderInstance extends ShaderInstance implements ILDShaderInstance, IConfigurable, CompoundTagSerializable {
     @Getter
     @Nullable
     private Program geometry;

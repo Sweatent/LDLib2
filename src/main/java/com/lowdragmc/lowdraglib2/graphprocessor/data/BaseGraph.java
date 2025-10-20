@@ -3,6 +3,7 @@ package com.lowdragmc.lowdraglib2.graphprocessor.data;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.graphprocessor.data.parameter.ExposedParameter;
 import com.lowdragmc.lowdraglib2.graphprocessor.data.trigger.TriggerLink;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import com.lowdragmc.lowdraglib2.utils.TypeAdapter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -10,14 +11,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import oshi.util.tuples.Pair;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-public class BaseGraph implements INBTSerializable<CompoundTag> {
+public class BaseGraph implements CompoundTagSerializable {
     public final HashSet<UUID> usedGUIDs = new HashSet<>();
 
     public UUID newGUID() {

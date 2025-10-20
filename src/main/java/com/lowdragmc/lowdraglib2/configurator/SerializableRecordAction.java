@@ -1,16 +1,16 @@
 package com.lowdragmc.lowdraglib2.configurator;
 
 import com.lowdragmc.lowdraglib2.Platform;
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.minecraft.nbt.Tag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
+import net.minecraft.nbt.CompoundTag;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 @Accessors(chain = true)
-public class SerializableRecordAction<T extends INBTSerializable<?>> implements EditAction {
+public class SerializableRecordAction<T extends CompoundTagSerializable> implements EditAction {
     public final T serializable;
     @Nullable
     @Setter
@@ -19,14 +19,14 @@ public class SerializableRecordAction<T extends INBTSerializable<?>> implements 
     @Setter
     private Consumer<T> onUndo;
     // runtime
-    private Tag snapshot;
+    private CompoundTag snapshot;
 
     private SerializableRecordAction(T serializable) {
         this.serializable = serializable;
-        this.snapshot = serializable.serializeNBT(Platform.getFrozenRegistry());
+        this.snapshot = serializable.serializeNBT(Platform.getFrozenRegistry()).copy();
     }
 
-    public static <T extends INBTSerializable<?>> SerializableRecordAction<T> of(T serializable) {
+    public static <T extends CompoundTagSerializable> SerializableRecordAction<T> of(T serializable) {
         return new SerializableRecordAction<>(serializable);
     }
 
@@ -37,12 +37,12 @@ public class SerializableRecordAction<T extends INBTSerializable<?>> implements 
     }
 
     public void updateSnapshot() {
-        snapshot = serializable.serializeNBT(Platform.getFrozenRegistry());
+        snapshot = serializable.serializeNBT(Platform.getFrozenRegistry()).copy();
     }
 
     @Override
     public void execute() {
-        ((INBTSerializable)serializable).deserializeNBT(Platform.getFrozenRegistry(), snapshot);
+        serializable.deserializeNBT(Platform.getFrozenRegistry(), snapshot.copy());
         if (onExecute != null) {
             onExecute.accept(serializable);
         }
@@ -50,7 +50,7 @@ public class SerializableRecordAction<T extends INBTSerializable<?>> implements 
 
     @Override
     public void undo() {
-        ((INBTSerializable)serializable).deserializeNBT(Platform.getFrozenRegistry(), snapshot);
+        serializable.deserializeNBT(Platform.getFrozenRegistry(), snapshot.copy());
         if (onUndo != null) {
             onUndo.accept(serializable);
         }

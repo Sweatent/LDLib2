@@ -1,11 +1,11 @@
 package com.lowdragmc.lowdraglib2.syncdata;
 
+import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import com.lowdragmc.lowdraglib2.utils.PersistedParser;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.EndTag;
 import net.minecraft.nbt.Tag;
-import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.NotNull;
 import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
@@ -36,7 +36,7 @@ import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
  *     <li>Call {@link #afterDeserialize()}</li>
  * </ol>
  */
-public interface IPersistedSerializable extends INBTSerializable<CompoundTag> {
+public interface IPersistedSerializable extends CompoundTagSerializable {
 
     default void beforeSerialize() {
 
