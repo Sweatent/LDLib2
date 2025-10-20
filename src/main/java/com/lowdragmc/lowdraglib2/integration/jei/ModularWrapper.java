@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.integration.jei;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib2.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.modular.ModularUIGuiContainer;
@@ -11,14 +13,12 @@ import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class ModularWrapper<T extends Widget> extends ModularUIGuiContainer {
     @Getter
     protected T widget;

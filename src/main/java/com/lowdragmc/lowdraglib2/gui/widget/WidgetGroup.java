@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.animation.Transform;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
@@ -21,8 +23,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.HolderLookup;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.nbt.CompoundTag;
@@ -509,7 +509,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateScreen() {
         super.updateScreen();
         for (Widget widget : widgets) {
@@ -535,7 +535,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void drawWidgetsForeground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         DialogWidget dialogWidget = null;
         for (int i = widgets.size() - 1; i >= 0; i--) {
@@ -559,13 +559,13 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInForeground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
         drawWidgetsForeground(graphics, mouseX, mouseY, partialTicks);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void drawWidgetsBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         for (Widget widget : widgets) {
             if (widget.isVisible()) {
@@ -581,14 +581,14 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         drawWidgetsBackground(graphics, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawOverlay(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawOverlay(graphics, mouseX, mouseY, partialTicks);
         for (Widget widget : widgets) {
@@ -601,7 +601,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseWheelMove(double mouseX, double mouseY, double scrollX, double scrollY) {
         for (int i = widgets.size() - 1; i >= 0; i--) {
             Widget widget = widgets.get(i);
@@ -613,7 +613,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         for (int i = widgets.size() - 1; i >= 0; i--) {
             Widget widget = widgets.get(i);
@@ -625,7 +625,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         for (int i = widgets.size() - 1; i >= 0; i--) {
             Widget widget = widgets.get(i);
@@ -637,7 +637,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         for (int i = widgets.size() - 1; i >= 0; i--) {
             Widget widget = widgets.get(i);
@@ -648,7 +648,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseMoved(double mouseX, double mouseY) {
         for (int i = widgets.size() - 1; i >= 0; i--) {
             Widget widget = widgets.get(i);
@@ -660,7 +660,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         for (int i = widgets.size() - 1; i >= 0; i--) {
             Widget widget = widgets.get(i);
@@ -672,7 +672,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         for (int i = widgets.size() - 1; i >= 0; i--) {
             Widget widget = widgets.get(i);
@@ -683,7 +683,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
         return false;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean charTyped(char codePoint, int modifiers) {
         for (int i = widgets.size() - 1; i >= 0; i--) {
             Widget widget = widgets.get(i);
@@ -695,7 +695,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == 1) {
             int widgetIndex = buffer.readVarInt();
@@ -743,7 +743,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void onScreenSizeUpdate(int screenWidth, int screenHeight) {
         super.onScreenSizeUpdate(screenWidth, screenHeight);
         for (Widget widget : widgets) {
@@ -785,7 +785,7 @@ public class WidgetGroup extends Widget implements IGhostIngredientTarget, IIngr
     // *********** for jei rei ************* //
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public List<Rect2i> getGuiExtraAreas(Rect2i guiRect, List<Rect2i> list) {
         for (Widget widget : widgets) {
             list = widget.getGuiExtraAreas(guiRect, list);

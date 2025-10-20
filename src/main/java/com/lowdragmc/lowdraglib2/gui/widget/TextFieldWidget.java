@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigColor;
@@ -12,8 +14,6 @@ import com.lowdragmc.lowdraglib2.math.Size;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ResourceLocationException;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -37,7 +37,7 @@ import java.util.function.Supplier;
 @LDLRegister(name = "text_field", group = "widget.basic", registry = "ldlib2:widget")
 public class TextFieldWidget extends Widget implements IConfigurableWidget {
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected EditBox textField;
 
     @Configurable(name = "ldlib.gui.editor.name.maxStringLength")
@@ -144,7 +144,7 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         this.textField.render(graphics, mouseX, mouseY, partialTicks);
@@ -155,7 +155,7 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isMouseOverElement(mouseX, mouseY)) {
             isDragging = true;
@@ -166,7 +166,7 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         isDragging = false;
         return super.mouseReleased(mouseX, mouseY, button);
@@ -211,7 +211,7 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         super.readUpdateInfo(id, buffer);
         if (id == 1) {
@@ -399,7 +399,7 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseWheelMove(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (wheelDur > 0 && numberInstance != null && isMouseOverElement(mouseX, mouseY) && isFocus()) {
             try {
@@ -413,7 +413,7 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (isDragging && numberInstance != null && isFocus()) {
             try {
@@ -427,7 +427,7 @@ public class TextFieldWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInForeground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         if (isMouseOverElement(mouseX, mouseY) && gui != null &&  gui.getModularUIGui() != null) {
             List<Component> tips = new ArrayList<>();

@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui.elements;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Horizontal;
@@ -20,8 +22,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Tuple;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
@@ -135,7 +135,7 @@ public class TextElement extends UIElement {
         return setText(text);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public Font getFont() {
         return Minecraft.getInstance().font;
     }

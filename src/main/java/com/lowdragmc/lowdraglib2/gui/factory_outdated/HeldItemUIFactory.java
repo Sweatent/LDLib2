@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.factory_outdated;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib2.gui.modular.ModularUI;
@@ -10,8 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * @author KilaBash
@@ -36,7 +36,7 @@ public class HeldItemUIFactory extends UIFactory<HeldItemUIFactory.HeldItemHolde
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected HeldItemHolder readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData) {
         Player player = Minecraft.getInstance().player;
         return player == null ? null :new HeldItemHolder(player, syncData.readEnum(InteractionHand.class));

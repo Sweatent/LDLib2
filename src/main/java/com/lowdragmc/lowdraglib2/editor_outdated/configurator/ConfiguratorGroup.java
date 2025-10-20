@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.editor_outdated.configurator;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.editor_outdated.IConfiguratorContainer;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
@@ -11,8 +13,6 @@ import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Getter;
 import lombok.Setter;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
 
@@ -128,7 +128,7 @@ public class ConfiguratorGroup extends Configurator {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@NotNull @Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         Position pos = getPosition();
         Size size = getSize();

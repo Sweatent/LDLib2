@@ -1,13 +1,13 @@
 package com.lowdragmc.lowdraglib2.client.shader;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import lombok.experimental.UtilityClass;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 @UtilityClass
 public final class LDProgramDefineManager {
     private static Set<String> PROGRAM_DEFINES = new HashSet<>();

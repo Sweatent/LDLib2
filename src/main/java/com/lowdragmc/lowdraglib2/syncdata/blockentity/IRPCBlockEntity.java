@@ -1,12 +1,12 @@
 package com.lowdragmc.lowdraglib2.syncdata.blockentity;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.networking.both.PacketRPCBlockEntity;
 import com.lowdragmc.lowdraglib2.syncdata.IManaged;
 import com.lowdragmc.lowdraglib2.syncdata.rpc.RPCMethodMeta;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -26,7 +26,7 @@ public interface IRPCBlockEntity extends IManagedBlockEntity {
         return PacketRPCBlockEntity.of(managed, this, methodName, args);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void rpcToServer(IManaged managed, String methodName, Object... args) {
         var packet = generateRpcPacket(managed, methodName, args);
         PacketDistributor.sendToServer(packet);

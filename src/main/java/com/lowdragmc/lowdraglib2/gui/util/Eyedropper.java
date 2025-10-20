@@ -1,3 +1,5 @@
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 package com.lowdragmc.lowdraglib2.gui.util;
 //
 //import com.lowdragmc.lowdraglib.LDLib;
@@ -25,7 +27,7 @@ package com.lowdragmc.lowdraglib2.gui.util;
 // * @data 2022/12/11
 // * @implNote Eyedropper
 // */
-//@OnlyIn(Dist.CLIENT)
+//@Environment(EnvType.CLIENT)
 //public enum Eyedropper {
 //    DOWNLOAD {
 //

@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.editor_outdated.ui.view;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.editor_outdated.ui.Editor;
 import com.lowdragmc.lowdraglib2.gui.texture.GuiTextureGroup;
@@ -11,8 +13,6 @@ import com.lowdragmc.lowdraglib2.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib2.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Getter;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * @author KilaBash
@@ -86,7 +86,7 @@ public abstract class FloatViewWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         isDragging = false;
         if (title != null && title.isMouseOverElement(mouseX, mouseY)) {
@@ -98,7 +98,7 @@ public abstract class FloatViewWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (isDragging) {
             double dx = dragX + lastDeltaX;
@@ -114,7 +114,7 @@ public abstract class FloatViewWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         isDragging = false;
         return super.mouseReleased(mouseX, mouseY, button);

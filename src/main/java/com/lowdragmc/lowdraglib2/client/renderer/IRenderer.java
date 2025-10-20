@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.client.renderer;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.LDLib2Registries;
 import com.lowdragmc.lowdraglib2.client.renderer.block.RendererBlock;
@@ -28,8 +30,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -92,7 +92,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
         return CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(EMPTY);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default IRenderer copy() {
         return deserializeWrapper(serializeWrapper());
     }
@@ -100,7 +100,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Render itemstack.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void renderItem(ItemStack stack,
                     ItemDisplayContext transformType,
                     boolean leftHand, PoseStack poseStack,
@@ -112,7 +112,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Render static block model.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default List<BakedQuad> renderModel(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, @Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData data, @Nullable RenderType renderType) {
         return Collections.emptyList();
     }
@@ -123,7 +123,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
      * <p>
      * By default, defers query to {@link ItemBlockRenderTypes}.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default ChunkRenderTypeSet getRenderTypes(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource rand, ModelData modelData) {
         return ItemBlockRenderTypes.getRenderLayers(state);
     }
@@ -131,7 +131,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Register TextureSprite here.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void onPrepareTextureAtlas(ResourceLocation atlasName, Consumer<ResourceLocation> register) {
 
     }
@@ -139,7 +139,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Register additional models here.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void onAdditionalModel(Consumer<ModelResourceLocation> registry) {
 
     }
@@ -147,7 +147,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * If the renderer requires event registration either {@link #onPrepareTextureAtlas} or {@link #onAdditionalModel}, call this method in the constructor.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void registerEvent() {
         EVENT_REGISTERS.add(this);
     }
@@ -155,7 +155,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Does the block entity have the {@link net.minecraft.client.renderer.blockentity.BlockEntityRenderer}.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default boolean hasBlockEntityRenderer(BlockEntity blockEntity) {
         return false;
     }
@@ -163,7 +163,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Does the block entity render offscreen {@link net.minecraft.client.renderer.blockentity.BlockEntityRenderer#shouldRenderOffScreen(BlockEntity)}.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default boolean shouldRenderOffScreen(BlockEntity blockEntity) {
         return false;
     }
@@ -171,7 +171,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Get the view distance for TESR.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default int getViewDistance() {
         return 64;
     }
@@ -179,7 +179,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Should the TESR {@link net.minecraft.client.renderer.blockentity.BlockEntityRenderer} render.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default boolean shouldRender(BlockEntity blockEntity, Vec3 cameraPos) {
         return Vec3.atCenterOf(blockEntity.getBlockPos()).closerThan(cameraPos, this.getViewDistance());
     }
@@ -187,7 +187,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Render the TESR {@link net.minecraft.client.renderer.blockentity.BlockEntityRenderer}.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
 
     }
@@ -195,7 +195,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Get the particle texture.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Nonnull
     default TextureAtlasSprite getParticleTexture(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, ModelData modelData) {
         return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(MissingTextureAtlasSprite.getLocation());
@@ -204,7 +204,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Whether to apply AO for the model.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default TriState useAO() {
         return TriState.FALSE;
     }
@@ -212,7 +212,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Whether to apply AO for the model.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default TriState useAO(BlockState state, ModelData modelData, RenderType renderType) {
         return useAO();
     }
@@ -220,7 +220,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Whether to apply block light during the itemstack rendering.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default boolean useBlockLight(ItemStack stack) {
         return false;
     }
@@ -228,7 +228,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Should we rebake quads for mcmeta data?
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default boolean reBakeCustomQuads() {
         return false;
     }
@@ -236,7 +236,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Offset for rebake's quads sides while {@link #reBakeCustomQuads()} return true.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default float reBakeCustomQuadsOffset() {
         return 0;
     }
@@ -244,7 +244,7 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Whether to apply gui 3d transform during itemstack rendering.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default boolean isGui3d() {
         return true;
     }
@@ -256,12 +256,12 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
      *
      * @return an appropriately sized {@link AABB} for the {@link BlockEntityRenderer}
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default AABB getRenderBoundingBox(BlockEntity blockEntity) {
         return new AABB(blockEntity.getBlockPos());
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default Scene createPreviewScene() {
         var level = new TrackedDummyWorld();
         level.addBlock(BlockPos.ZERO, BlockInfo.fromBlock(RendererBlock.BLOCK));
@@ -291,13 +291,13 @@ public interface IRenderer extends ILDLRegisterClient<IRenderer, Supplier<IRende
     /**
      * Preview of the renderer.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void createPreview(ConfiguratorGroup father) {
         father.addConfigurators(new Configurator("ldlib.gui.editor.group.preview").addChild(createPreviewScene()));
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void buildConfigurator(ConfiguratorGroup father) {
         createPreview(father);
         IConfigurable.super.buildConfigurator(father);

@@ -1,13 +1,13 @@
 package com.lowdragmc.lowdraglib2.integration.emi;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.integration.jei.ModularWrapper;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
 import lombok.Getter;
 import lombok.Setter;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @date 2023/4/3
  * @implNote ModularWrapperWidget
  */
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class ModularWrapperWidget extends Widget implements ContainerEventHandler {
     @Getter @Setter
     @Nullable

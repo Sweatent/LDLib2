@@ -1,11 +1,11 @@
 package com.lowdragmc.lowdraglib2.client.utils;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -16,7 +16,7 @@ import oshi.util.tuples.Pair;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class RenderBufferUtils {
 
     public static void drawLine(PoseStack.Pose pose, VertexConsumer buffer, Vector3f from, Vector3f to,

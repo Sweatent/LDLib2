@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.integration.kjs.ui;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.factory_outdated.UIFactory;
 import com.lowdragmc.lowdraglib2.gui.modular.IUIHolder;
@@ -12,8 +14,6 @@ import net.minecraft.core.BlockPos;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class BlockUIJSFactory extends UIFactory<BlockUIJSFactory.BlockAccess> {
     public static final BlockUIJSFactory INSTANCE = new BlockUIJSFactory();
@@ -66,7 +66,7 @@ public class BlockUIJSFactory extends UIFactory<BlockUIJSFactory.BlockAccess> {
         return null;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Override
     protected BlockAccess readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData) {
         return new BlockAccess(syncData.readBlockPos(), syncData.readUtf());

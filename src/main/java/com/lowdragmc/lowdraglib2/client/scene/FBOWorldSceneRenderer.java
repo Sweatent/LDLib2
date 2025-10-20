@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.client.scene;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.pipeline.RenderTarget;
@@ -7,8 +9,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import lombok.Getter;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  * FBO can be rendered anywhere more flexibly, not just in the GUI.
  * If you have scene rendering needs, you will love this FBO renderer.
  */
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class FBOWorldSceneRenderer extends WorldSceneRenderer {
     @Getter
     private int resolutionWidth = 1080;

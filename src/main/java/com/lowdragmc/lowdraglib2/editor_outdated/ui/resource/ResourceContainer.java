@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.editor_outdated.ui.resource;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
@@ -21,8 +23,6 @@ import net.minecraft.Util;
 import net.minecraft.nbt.EndTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.function.TriFunction;
 
 import javax.annotation.Nullable;
@@ -176,7 +176,7 @@ public class ResourceContainer<T, C extends Widget> extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         var result = super.mouseClicked(mouseX, mouseY, button);
         if (button == 1 && isMouseOverElement(mouseX, mouseY)) {

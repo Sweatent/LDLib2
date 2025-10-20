@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.client.renderer.impl;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.client.renderer.IRenderer;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
@@ -20,8 +22,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.common.util.TriState;
@@ -57,7 +57,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void renderItem(ItemStack stack, ItemDisplayContext transformType, boolean leftHand, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay, BakedModel model) {
         for (IRenderer renderer : renderers) {
             renderer.renderItem(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, model);
@@ -65,7 +65,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public List<BakedQuad> renderModel(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, @Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData data, @Nullable RenderType renderType) {
         var result = new ArrayList<BakedQuad>();
         for (IRenderer renderer : renderers) {
@@ -75,13 +75,13 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public ChunkRenderTypeSet getRenderTypes(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource rand, ModelData modelData) {
         return ChunkRenderTypeSet.union(Arrays.stream(renderers).map(renderer -> renderer.getRenderTypes(level, pos, state, rand, modelData)).toList());
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean hasBlockEntityRenderer(BlockEntity blockEntity) {
         for (IRenderer renderer : renderers) {
             if (renderer.hasBlockEntityRenderer(blockEntity))
@@ -91,7 +91,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean shouldRenderOffScreen(BlockEntity blockEntity) {
         for (IRenderer renderer : renderers) {
             if (renderer.shouldRenderOffScreen(blockEntity))
@@ -101,7 +101,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean shouldRender(BlockEntity blockEntity, Vec3 cameraPos) {
         for (IRenderer renderer : renderers) {
             if (renderer.shouldRender(blockEntity, cameraPos))
@@ -111,7 +111,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         for (IRenderer renderer : renderers) {
             renderer.render(blockEntity, partialTicks, stack, buffer, combinedLight, combinedOverlay);
@@ -119,7 +119,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public @NotNull TextureAtlasSprite getParticleTexture(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, ModelData modelData) {
         for (IRenderer renderer : renderers) {
             return renderer.getParticleTexture(level, pos, modelData);
@@ -128,7 +128,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public TriState useAO() {
         for (IRenderer renderer : renderers) {
             return renderer.useAO();
@@ -137,7 +137,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public TriState useAO(BlockState state, ModelData modelData, RenderType renderType) {
         for (IRenderer renderer : renderers) {
             return renderer.useAO(state, modelData, renderType);
@@ -146,7 +146,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean useBlockLight(ItemStack stack) {
         for (IRenderer renderer : renderers) {
             return renderer.useBlockLight(stack);
@@ -155,7 +155,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean reBakeCustomQuads() {
         for (IRenderer renderer : renderers) {
             if (renderer.reBakeCustomQuads())
@@ -166,7 +166,7 @@ public class RendererGroup implements IRenderer {
 
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean isGui3d() {
         for (IRenderer renderer : renderers) {
             return renderer.isGui3d();
@@ -175,7 +175,7 @@ public class RendererGroup implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public AABB getRenderBoundingBox(BlockEntity blockEntity) {
         var result = new AABB(blockEntity.getBlockPos());
         for (IRenderer renderer : renderers) {

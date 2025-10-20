@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.editor_outdated.ui;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.IConfigurable;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.IConfigurableWidget;
@@ -12,8 +14,6 @@ import com.lowdragmc.lowdraglib2.gui.widget.Widget;
 import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 
 import javax.annotation.Nonnull;
@@ -38,7 +38,7 @@ public record UIWrapper(MainPanel panel, IConfigurableWidget inner) implements I
         return inner instanceof IConfigurableWidgetGroup group && group.canWidgetAccepted(uiWrapper.inner);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         Position pos = inner.widget().getPosition();
         Size size = inner.widget().getSize();
@@ -71,7 +71,7 @@ public record UIWrapper(MainPanel panel, IConfigurableWidget inner) implements I
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (isHover()) {
             var dragging = panel.getGui().getModularUIGui().getDraggingElement();

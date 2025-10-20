@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.editor_outdated.configurator;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.editor_outdated.IConfiguratorContainer;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
@@ -11,8 +13,6 @@ import com.lowdragmc.lowdraglib2.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Setter;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 
 import javax.annotation.Nonnull;
@@ -202,7 +202,7 @@ public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
+        @Environment(EnvType.CLIENT)
         public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
             super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
             if (isMouseOverElement(mouseX, mouseY) && onReorder != null) {
@@ -220,7 +220,7 @@ public class ArrayConfiguratorGroup<T> extends ConfiguratorGroup {
         }
 
         @Override
-        @OnlyIn(Dist.CLIENT)
+        @Environment(EnvType.CLIENT)
         public boolean mouseReleased(double mouseX, double mouseY, int button) {
             if (isMouseOverElement(mouseX, mouseY) && onReorder != null) {
                 var object = getGui().getModularUIGui().getDraggingElement();

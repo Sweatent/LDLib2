@@ -1,6 +1,8 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigColor;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
@@ -11,8 +13,6 @@ import com.lowdragmc.lowdraglib2.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -73,7 +73,7 @@ public class ImageWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateScreen() {
         super.updateScreen();
         if (textureSupplier != null) {
@@ -81,7 +81,7 @@ public class ImageWidget extends Widget implements IConfigurableWidget {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         Position position = getPosition();

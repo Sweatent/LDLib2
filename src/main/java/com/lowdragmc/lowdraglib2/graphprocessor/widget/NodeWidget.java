@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.graphprocessor.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.editor_outdated.IConfiguratorContainer;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.Configurator;
@@ -18,8 +20,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector4f;
 
@@ -198,7 +198,7 @@ public class NodeWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         var radius = new Vector4f(5, 5, 5, 5);

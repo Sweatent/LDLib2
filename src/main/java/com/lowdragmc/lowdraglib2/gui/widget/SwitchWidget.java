@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.IConfigurableWidget;
@@ -9,8 +11,6 @@ import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Getter;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 
 import javax.annotation.Nonnull;
@@ -83,7 +83,7 @@ public class SwitchWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateScreen() {
         super.updateScreen();
         if (isClientSideWidget && supplier != null) {
@@ -122,7 +122,7 @@ public class SwitchWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         Position position = getPosition();
         Size size = getSize();
@@ -140,7 +140,7 @@ public class SwitchWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isMouseOverElement(mouseX, mouseY)) {
             ClickData clickData = new ClickData();
@@ -171,7 +171,7 @@ public class SwitchWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == 2) {
             isPressed= buffer.readBoolean();

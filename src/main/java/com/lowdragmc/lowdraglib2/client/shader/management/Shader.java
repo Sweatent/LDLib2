@@ -1,13 +1,13 @@
 package com.lowdragmc.lowdraglib2.client.shader.management;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.google.common.base.Charsets;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.mojang.blaze3d.platform.GlStateManager;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opengl.GL11;
@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.util.Objects;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class Shader {
     public final ShaderType shaderType;
     public final String source;

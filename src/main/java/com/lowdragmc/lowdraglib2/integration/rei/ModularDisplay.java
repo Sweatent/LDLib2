@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.integration.rei;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib2.gui.widget.TankWidget;
 import com.lowdragmc.lowdraglib2.integration.jei.IngredientIO;
@@ -15,8 +17,6 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.impl.client.gui.widget.EntryWidget;
 import net.minecraft.network.chat.Component;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.capability.templates.EmptyFluidHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.wrapper.EmptyItemHandler;
@@ -85,7 +85,7 @@ public class ModularDisplay<T extends Widget> implements Display {
         return widgetList;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public List<me.shedaniel.rei.api.client.gui.widgets.Widget> createWidget(Rectangle bounds) {
         List<me.shedaniel.rei.api.client.gui.widgets.Widget> list = new ArrayList<>();
         var widget = this.widget.get();

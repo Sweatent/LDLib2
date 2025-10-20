@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget.layout;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.google.common.collect.Lists;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
@@ -18,8 +20,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -91,7 +91,7 @@ public class PhantomTankWidget extends TankWidget implements IGhostIngredientTar
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public List<Target> getPhantomTargets(Object ingredient) {
         if (LDLib2.isReiLoaded() && ingredient instanceof dev.architectury.fluid.FluidStack fluidStack) {
             ingredient = FluidStackImpl.toValue.apply(fluidStack);
@@ -187,7 +187,7 @@ public class PhantomTankWidget extends TankWidget implements IGhostIngredientTar
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isMouseOverElement(mouseX, mouseY)) {
             if (isClientSideWidget) {

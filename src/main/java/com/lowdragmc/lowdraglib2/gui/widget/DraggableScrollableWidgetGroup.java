@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
@@ -14,8 +16,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.Tag;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
@@ -301,13 +301,13 @@ public class DraggableScrollableWidgetGroup extends WidgetGroup {
         return isMouseOver(pos.x + size.width - yBarWidth, pos.y, yBarWidth, size.height, mouseX, mouseY);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected boolean hookDrawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         return false;
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInForeground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         if (isMouseOverElement(mouseX, mouseY)) {
             super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
@@ -315,7 +315,7 @@ public class DraggableScrollableWidgetGroup extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         drawBackgroundTexture(graphics, mouseX, mouseY);
         int x = getPosition().x;
@@ -376,7 +376,7 @@ public class DraggableScrollableWidgetGroup extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         lastDeltaX = 0;
         lastDeltaY = 0;
@@ -405,7 +405,7 @@ public class DraggableScrollableWidgetGroup extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         Window window = Minecraft.getInstance().getWindow();
         double mouseX = Minecraft.getInstance().mouseHandler.xpos() * window.getGuiScaledWidth() / window.getScreenWidth();
@@ -422,7 +422,7 @@ public class DraggableScrollableWidgetGroup extends WidgetGroup {
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected boolean checkClickedDragged(double mouseX, double mouseY, int button) {
         for (int i = widgets.size() - 1; i >= 0; i--) {
             Widget widget = widgets.get(i);
@@ -456,7 +456,7 @@ public class DraggableScrollableWidgetGroup extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseWheelMove(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (this.isMouseOverElement(mouseX, mouseY)) {
             if (super.mouseWheelMove(mouseX, mouseY, scrollX, scrollY)) {
@@ -501,7 +501,7 @@ public class DraggableScrollableWidgetGroup extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         double dx = deltaX + lastDeltaX;
         double dy = deltaY + lastDeltaY;
@@ -546,7 +546,7 @@ public class DraggableScrollableWidgetGroup extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (draggedOnXScrollBar) {
             draggedOnXScrollBar = false;
@@ -563,7 +563,7 @@ public class DraggableScrollableWidgetGroup extends WidgetGroup {
         return true;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public List<Rect2i> getGuiExtraAreas(Rect2i guiRect, List<Rect2i> list) {
         Rect2i rect2i = toRectangleBox();
         if (rect2i.getX() < guiRect.getX()

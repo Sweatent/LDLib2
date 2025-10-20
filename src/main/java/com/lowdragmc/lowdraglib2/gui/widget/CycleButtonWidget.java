@@ -1,12 +1,12 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.texture.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectFunction;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
@@ -68,7 +68,7 @@ public class CycleButtonWidget extends Widget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateScreen() {
         super.updateScreen();
         if (isClientSideWidget && indexSupplier != null) {
@@ -81,7 +81,7 @@ public class CycleButtonWidget extends Widget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isMouseOverElement(mouseX, mouseY)) {
             index++;
@@ -111,7 +111,7 @@ public class CycleButtonWidget extends Widget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
         if (id == 1) {
             index = buffer.readVarInt();

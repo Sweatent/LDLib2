@@ -1,11 +1,11 @@
 package com.lowdragmc.lowdraglib2.core.mixins;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.gui.texture.ShaderTexture;
 import com.lowdragmc.lowdraglib2.utils.CustomResourcePack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
@@ -34,7 +34,7 @@ public abstract class ReloadableResourceManagerMixin {
     }
 
     @Unique
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private static void lowDragLib$injectClientResourcePack() {
         if (LDLib2.isRemote()) {
             ShaderTexture.clearCache();

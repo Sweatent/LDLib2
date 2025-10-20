@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.client.shader;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.client.shader.management.Shader;
 import com.lowdragmc.lowdraglib2.gui.texture.ShaderTexture;
@@ -9,8 +11,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 import lombok.Getter;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.RegisterShadersEvent;
@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 import static com.mojang.blaze3d.vertex.VertexFormatElement.POSITION;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class LDLibShaders {
 	public static final Pattern REGEX_VERSION = Pattern.compile(
 			"(#(?:/\\*(?:[^*]|\\*+[^*/])*\\*+/|\\h)*version(?:/\\*(?:[^*]|\\*+[^*/])*\\*+/|\\h)*(\\d+))\\b"

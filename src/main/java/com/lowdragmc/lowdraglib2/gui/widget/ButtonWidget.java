@@ -1,13 +1,13 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.IConfigurableWidget;
 import com.lowdragmc.lowdraglib2.gui.texture.*;
 import com.lowdragmc.lowdraglib2.gui.util.ClickData;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import dev.latvian.mods.rhino.util.HideFromJS;
@@ -81,7 +81,7 @@ public class ButtonWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isMouseOverElement(mouseX, mouseY) && button == 0) {
             isClicked = true;
@@ -97,7 +97,7 @@ public class ButtonWidget extends Widget implements IConfigurableWidget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         isClicked = false;
         return super.mouseReleased(mouseX, mouseY, button);
@@ -114,7 +114,7 @@ public class ButtonWidget extends Widget implements IConfigurableWidget {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void drawBackgroundTexture(@Nonnull GuiGraphics graphics, int mouseX, int mouseY) {
         var isHovered = isMouseOverElement(mouseX, mouseY);
         if (!isHovered || drawBackgroundWhenHover) {

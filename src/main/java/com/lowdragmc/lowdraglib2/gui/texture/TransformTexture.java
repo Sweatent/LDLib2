@@ -1,10 +1,10 @@
 package com.lowdragmc.lowdraglib2.gui.texture;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
 import com.lowdragmc.lowdraglib2.gui.ui.data.Pivot;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Quaternionf;
@@ -51,7 +51,7 @@ public abstract class TransformTexture implements IGuiTexture {
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void preDraw(GuiGraphics graphics, float x, float y, float width, float height) {
         graphics.pose().pushPose();
         graphics.pose().translate(xOffset, yOffset, 0);
@@ -67,20 +67,20 @@ public abstract class TransformTexture implements IGuiTexture {
         graphics.pose().translate(-translationX, -translationY, 0);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void postDraw(GuiGraphics graphics, float x, float y, float width, float height) {
         graphics.pose().popPose();
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public final void draw(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height, float partialTicks) {
         preDraw(graphics, x, y, width, height);
         drawInternal(graphics, mouseX, mouseY, x, y, width, height, partialTicks);
         postDraw(graphics, x, y, width, height);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected abstract void drawInternal(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height, float partialTicks);
 
 }

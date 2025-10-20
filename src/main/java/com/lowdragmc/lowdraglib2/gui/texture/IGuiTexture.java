@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.texture;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.LDLib2Registries;
 import com.lowdragmc.lowdraglib2.configurator.IConfigurable;
@@ -17,8 +19,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -38,7 +38,7 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
         @Override
         public IGuiTexture copy() { return EMPTY; }
 
-        @OnlyIn(Dist.CLIENT)
+        @Environment(EnvType.CLIENT)
         @Override
         public void draw(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height, float partialTicks) {}
     }
@@ -48,7 +48,7 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
         @Override
         public IGuiTexture copy() { return MISSING_TEXTURE; }
 
-        @OnlyIn(Dist.CLIENT)
+        @Environment(EnvType.CLIENT)
         @Override
         public void draw(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height, float partialTicks) {
             Tesselator tessellator = Tesselator.getInstance();
@@ -94,13 +94,13 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Deprecated
     default void draw(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height) {
         draw(graphics, mouseX, mouseY, x, y, width, height, 0);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     void draw(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height, float partialTicks);
 
     default IGuiTexture copy() {
@@ -110,7 +110,7 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
     }
 
     // ***************** EDITOR  ***************** //
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void createPreview(ConfiguratorGroup father) {
         father.addConfigurators(new Configurator("ldlib.gui.editor.group.preview")
                 .addChild(new UIElement().layout(layout -> {
@@ -126,7 +126,7 @@ public interface IGuiTexture extends IPersistedSerializable, IConfigurable, ILDL
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void buildConfigurator(ConfiguratorGroup father) {
         createPreview(father);
         IConfigurable.super.buildConfigurator(father);

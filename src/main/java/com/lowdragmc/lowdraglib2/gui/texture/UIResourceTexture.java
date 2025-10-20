@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.texture;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.editor.resource.BuiltinPath;
 import com.lowdragmc.lowdraglib2.editor.resource.IResourcePath;
 import com.lowdragmc.lowdraglib2.editor.resource.TexturesResource;
@@ -9,8 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.GuiGraphics;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Optional;
@@ -35,7 +35,7 @@ public final class UIResourceTexture implements IGuiTexture {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void draw(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height, float partialTicks) {
         getInternalTexture().draw(graphics, mouseX, mouseY, x, y, width, height, partialTicks);
     }

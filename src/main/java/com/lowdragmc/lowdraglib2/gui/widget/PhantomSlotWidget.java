@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.google.common.collect.Lists;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigSetter;
@@ -15,8 +17,6 @@ import lombok.Getter;
 import lombok.Setter;
 import mezz.jei.api.ingredients.ITypedIngredient;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.world.entity.player.Player;
@@ -112,7 +112,7 @@ public class PhantomSlotWidget extends SlotWidget implements IGhostIngredientTar
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public List<Target> getPhantomTargets(Object ingredient) {
         if (LDLib2.isEmiLoaded() && ingredient instanceof EmiStack itemEmiStack) {
             Item item = itemEmiStack.getKeyOfType(Item.class);
