@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.editor_outdated.ui;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
 import com.lowdragmc.lowdraglib2.editor_outdated.data.IProject;
@@ -18,8 +20,6 @@ import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.nbt.CompoundTag;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.nbt.NbtIo;
 import org.lwjgl.glfw.GLFW;
 
@@ -38,7 +38,7 @@ import java.util.function.Consumer;
  */
 @Getter
 public abstract class Editor extends WidgetGroup {
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public static Editor INSTANCE;
     protected final File workSpace;
     protected IProject currentProject;
@@ -97,7 +97,7 @@ public abstract class Editor extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void onScreenSizeUpdate(int screenWidth, int screenHeight) {
         setSize(Size.of(screenWidth, screenHeight));
         super.onScreenSizeUpdate(screenWidth, screenHeight);

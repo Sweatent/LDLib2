@@ -1,11 +1,11 @@
 package com.lowdragmc.lowdraglib2.configurator;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.configurator.ui.Configurator;
 import com.lowdragmc.lowdraglib2.configurator.ui.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.registry.ILDLRegister;
 import com.lowdragmc.lowdraglib2.registry.ILDLRegisterClient;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public interface IConfigurable {
 
@@ -13,7 +13,7 @@ public interface IConfigurable {
      * Add configurators into given group
      * @param father father group
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default void buildConfigurator(ConfiguratorGroup father) {
         ConfiguratorParser.createConfigurators(father, this);
     }
@@ -21,7 +21,7 @@ public interface IConfigurable {
     /**
      * Creates and returns a configurator directly instead of build it.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default Configurator createDirectConfigurator() {
         var group = new ConfiguratorGroup();
         buildConfigurator(group);

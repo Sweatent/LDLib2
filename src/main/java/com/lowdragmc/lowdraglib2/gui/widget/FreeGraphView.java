@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.math.Rect;
@@ -7,8 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2d;
 import org.joml.Vector2f;
@@ -110,7 +110,7 @@ public class FreeGraphView extends WidgetGroup {
 
     /********** Correct Event Position and Rendering for child widgets. **********/
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         lastMouseX = mouseX;
         lastMouseY = mouseY;
@@ -127,7 +127,7 @@ public class FreeGraphView extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         isDragging = false;
         var realMouse = getViewPosition(mouseX, mouseY);
@@ -135,7 +135,7 @@ public class FreeGraphView extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         // update view offset
         if (isDragging) {
@@ -151,7 +151,7 @@ public class FreeGraphView extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseWheelMove(double mouseX, double mouseY, double wheelX, double wheelY) {
         // update view scale
         var realMouse = getViewPosition(mouseX, mouseY);
@@ -171,14 +171,14 @@ public class FreeGraphView extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseMoved(double mouseX, double mouseY) {
         var realMouse = getViewPosition(mouseX, mouseY);
         return super.mouseMoved(realMouse.x, realMouse.y);
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInForeground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         drawTooltipTexts(mouseX, mouseY);
         var realMouse = getViewPosition(mouseX, mouseY);
@@ -192,7 +192,7 @@ public class FreeGraphView extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         this.drawBackgroundTexture(graphics, mouseX, mouseY);
 

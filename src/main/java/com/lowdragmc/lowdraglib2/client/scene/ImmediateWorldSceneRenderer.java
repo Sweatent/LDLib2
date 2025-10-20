@@ -1,10 +1,10 @@
 package com.lowdragmc.lowdraglib2.client.scene;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.math.PositionedRect;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
 import org.lwjgl.opengl.GL11;
@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL11;
  * @Description: Real-time rendering renderer.
  * If you need to render scene as a texture, use the FBO {@link FBOWorldSceneRenderer}.
  */
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public class ImmediateWorldSceneRenderer extends WorldSceneRenderer {
 
     public ImmediateWorldSceneRenderer(Level world) {

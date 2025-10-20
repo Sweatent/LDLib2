@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
@@ -7,8 +9,6 @@ import com.lowdragmc.lowdraglib2.gui.util.TreeNode;
 import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import org.joml.Vector4f;
@@ -68,7 +68,7 @@ public class TreeListWidget<K, T> extends Widget {
 
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseWheelMove(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (this.isMouseOverElement(mouseX, mouseY)) {
             int moveDelta = (int) (-Mth.clamp(scrollY, -1, 1) * 5);
@@ -79,7 +79,7 @@ public class TreeListWidget<K, T> extends Widget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         int x = getPosition().x;

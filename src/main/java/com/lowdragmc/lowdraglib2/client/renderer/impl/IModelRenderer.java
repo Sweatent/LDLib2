@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.client.renderer.impl;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.client.model.ModelFactory;
 import com.lowdragmc.lowdraglib2.client.renderer.IBlockRendererProvider;
@@ -15,8 +17,6 @@ import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegisterClient;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Getter;
 import net.minecraft.client.renderer.RenderType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -48,13 +48,13 @@ public class IModelRenderer implements IRenderer {
     @Configurable
     protected ResourceLocation modelLocation;
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Nullable
     protected volatile BakedModel itemModel;
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private volatile boolean itemModelInitialized;
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected Map<ModelState, BakedModel> modelCaches;
 
     protected IModelRenderer() {
@@ -88,7 +88,7 @@ public class IModelRenderer implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Nonnull
     public TextureAtlasSprite getParticleTexture(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, ModelData modelData) {
         BakedModel model = getItemBakedModel();
@@ -98,13 +98,13 @@ public class IModelRenderer implements IRenderer {
         return model.getParticleIcon(modelData);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected UnbakedModel getModel() {
         return ModelFactory.getUnBakedModel(modelLocation);
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void renderItem(ItemStack stack,
                            ItemDisplayContext transformType,
                            boolean leftHand, PoseStack poseStack,
@@ -119,7 +119,7 @@ public class IModelRenderer implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean useBlockLight(ItemStack stack) {
         var model = getItemBakedModel(stack);
         if (model != null) {
@@ -129,7 +129,7 @@ public class IModelRenderer implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public TriState useAO() {
         var model = getItemBakedModel();
         if (model != null) {
@@ -144,7 +144,7 @@ public class IModelRenderer implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public List<BakedQuad> renderModel(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, @Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData data, @Nullable RenderType renderType) {
         var ibakedmodel = getBlockBakedModel(level, pos, state);
         if (ibakedmodel == null) return Collections.emptyList();
@@ -152,14 +152,14 @@ public class IModelRenderer implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public ChunkRenderTypeSet getRenderTypes(BlockAndTintGetter level, BlockPos pos, BlockState state, RandomSource rand, ModelData modelData) {
         var ibakedmodel = getBlockBakedModel(level, pos, state);
         if (ibakedmodel != null) return ibakedmodel.getRenderTypes(state, rand, modelData);
         return IRenderer.super.getRenderTypes(level, pos, state, rand, modelData);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Nullable
     protected BakedModel getItemBakedModel() {
         if (!itemModelInitialized) {
@@ -177,13 +177,13 @@ public class IModelRenderer implements IRenderer {
         return itemModel;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Nullable
     protected BakedModel getItemBakedModel(ItemStack itemStack) {
         return getItemBakedModel();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Nullable
     protected BakedModel getBlockBakedModel(@Nullable BlockAndTintGetter level, @Nullable BlockPos pos, @Nullable BlockState state) {
         if (level != null && pos != null && state != null && state.getBlock() instanceof IBlockRendererProvider provider) {
@@ -202,20 +202,20 @@ public class IModelRenderer implements IRenderer {
     }
 
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected TextureAtlasSprite materialMapping(Material material) {
         return material.sprite();
     }
     
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void onAdditionalModel(Consumer<ModelResourceLocation> registry) {
         registry.accept(ModelResourceLocation.standalone(modelLocation));
         clearCache();
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean isGui3d() {
         var model = getItemBakedModel();
         if (model == null) {
@@ -230,7 +230,7 @@ public class IModelRenderer implements IRenderer {
         clearCache();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateModelWithReloadingResource(ResourceLocation modelLocation) {
         updateModelWithoutReloadingResource(modelLocation);
         var unBakedModel = getModel();
@@ -240,7 +240,7 @@ public class IModelRenderer implements IRenderer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void buildConfigurator(ConfiguratorGroup father) {
         IRenderer.super.buildConfigurator(father);
         var buttonConfigurator = new Configurator();

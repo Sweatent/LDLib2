@@ -1,9 +1,9 @@
 package com.lowdragmc.lowdraglib2.client.renderer;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -22,7 +22,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * Date: 2022/04/21
  * Description: 
  */
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ATESRRendererProvider<T extends BlockEntity> implements BlockEntityRenderer<T> {

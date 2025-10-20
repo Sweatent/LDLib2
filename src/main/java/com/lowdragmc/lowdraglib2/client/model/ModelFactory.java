@@ -1,11 +1,11 @@
 package com.lowdragmc.lowdraglib2.client.model;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.google.gson.JsonParseException;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.ModelBakeryAccessor;
 import com.mojang.datafixers.util.Either;
 import com.mojang.math.Transformation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -32,7 +32,7 @@ import java.util.function.Function;
  * Date: 2022/04/24
  * Description:
  */
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class ModelFactory {

@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.factory_outdated;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib2.gui.modular.ModularUI;
@@ -8,8 +10,6 @@ import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class BlockEntityUIFactory extends UIFactory<BlockEntity> {
     public static final BlockEntityUIFactory INSTANCE  = new BlockEntityUIFactory();
@@ -26,7 +26,7 @@ public class BlockEntityUIFactory extends UIFactory<BlockEntity> {
         return null;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Override
     protected BlockEntity readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData) {
         Level world = Minecraft.getInstance().level;

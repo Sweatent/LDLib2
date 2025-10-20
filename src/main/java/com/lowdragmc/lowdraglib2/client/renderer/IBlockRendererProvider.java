@@ -1,13 +1,13 @@
 package com.lowdragmc.lowdraglib2.client.renderer;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 
@@ -41,7 +41,7 @@ public interface IBlockRendererProvider {
      * Provide a way to modify the model state based on the block in the world.
      * you can use this to rotate the model based on the block state.
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     default ModelState getModelState(BlockAndTintGetter world, BlockPos pos, BlockState state) {
         return BlockModelRotation.X0_Y0;
     }

@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.utils.virtuallevel;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.google.common.base.Suppliers;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
@@ -26,8 +28,6 @@ import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.entity.*;
 import net.minecraft.world.level.saveddata.maps.MapId;
 import net.minecraft.world.ticks.BlackholeTickAccess;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -94,7 +94,7 @@ public class DummyWorld extends Level {
     protected float dayTimeFraction = 0.0f;
     @Getter @Setter
     protected float dayTimePerTick = -1.0f;
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Getter @Setter
     private ParticleManager particleManager;
 
@@ -453,7 +453,7 @@ public class DummyWorld extends Level {
     }
 
     @Nullable
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public Particle createParticle(ParticleOptions particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         var particleProvider = ClientProxy.getProvider(particleData.getType());
         if (particleProvider == null) {

@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.client.scene.*;
 import com.lowdragmc.lowdraglib2.client.utils.RenderUtils;
@@ -17,8 +19,6 @@ import dev.emi.emi.api.stack.EmiStack;
 import lombok.Getter;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -45,9 +45,9 @@ import java.util.function.Consumer;
 
 @SuppressWarnings({"unused", "UnusedReturnValue", "SameParameterValue"})
 public class SceneWidget extends WidgetGroup {
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected WorldSceneRenderer renderer;
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected TrackedDummyWorld dummyWorld;
     @Getter
     protected boolean dragging;
@@ -164,7 +164,7 @@ public class SceneWidget extends WidgetGroup {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public ParticleManager getParticleManager() {
         if (renderer == null) return null;
         return renderer.getParticleManager();
@@ -183,7 +183,7 @@ public class SceneWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateScreen() {
         super.updateScreen();
         ParticleManager particleManager = getParticleManager();
@@ -204,17 +204,17 @@ public class SceneWidget extends WidgetGroup {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public final void createScene(Level world) {
         createScene(world, false);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected ParticleManager createParticleManager() {
         return new ParticleManager();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public final void createScene(Level world, boolean useFBOSceneRenderer) {
         if (world == null) return;
         core = new HashSet<>();
@@ -245,12 +245,12 @@ public class SceneWidget extends WidgetGroup {
         selectedPosFace = null;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public WorldSceneRenderer getRenderer() {
         return renderer;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public TrackedDummyWorld getDummyWorld() {
         return dummyWorld;
     }
@@ -336,11 +336,11 @@ public class SceneWidget extends WidgetGroup {
         return list;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void renderBeforeBatchEnd(MultiBufferSource bufferSource, float partialTicks) {
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void renderBlockOverLay(WorldSceneRenderer renderer) {
         PoseStack poseStack = new PoseStack();
         hoverPosFace = null;
@@ -396,12 +396,12 @@ public class SceneWidget extends WidgetGroup {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawFacingBorder(PoseStack poseStack, BlockPosFace posFace, int color) {
         drawFacingBorder(poseStack, posFace, color, 0);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawFacingBorder(PoseStack poseStack, BlockPosFace posFace, int color, int inner) {
         poseStack.pushPose();
         RenderSystem.disableDepthTest();
@@ -414,7 +414,7 @@ public class SceneWidget extends WidgetGroup {
         poseStack.popPose();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private static void drawBorder(PoseStack poseStack, int x, int y, int width, int height, int color, int border) {
         drawSolidRect(poseStack,x - border, y - border, width + 2 * border, border, color);
         drawSolidRect(poseStack,x - border, y + height, width + 2 * border, border, color);
@@ -422,13 +422,13 @@ public class SceneWidget extends WidgetGroup {
         drawSolidRect(poseStack,x + width, y, border, height, color);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private static void drawSolidRect(PoseStack poseStack, int x, int y, int width, int height, int color) {
         fill(poseStack, x, y, x + width, y + height, 0, color);
         RenderSystem.enableBlend();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private static void fill(PoseStack matrices, int x1, int y1, int x2, int y2, int z, int color) {
         Matrix4f matrix4f = matrices.last().pose();
         int i;
@@ -490,7 +490,7 @@ public class SceneWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (super.mouseClicked(mouseX, mouseY, button)) {
             return true;
@@ -508,7 +508,7 @@ public class SceneWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseWheelMove(double mouseX, double mouseY, double scrollX, double scrollY) {
         var result = super.mouseWheelMove(mouseX, mouseY, scrollX, scrollY);
         if (!result && isMouseOverElement(mouseX, mouseY) && scalable) {
@@ -523,7 +523,7 @@ public class SceneWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (!intractable) return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
         if (dragging) {
@@ -539,7 +539,7 @@ public class SceneWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (!intractable) return super.mouseReleased(mouseX, mouseY, button);
         dragging = false;
@@ -560,7 +560,7 @@ public class SceneWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInForeground(@NotNull @Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         if (hoverTips && isMouseOverElement(mouseX, mouseY)) {
             if (hoverItem != null && !hoverItem.isEmpty()) {
@@ -571,7 +571,7 @@ public class SceneWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         // draw background
         drawBackgroundTexture(graphics, mouseX, mouseY);

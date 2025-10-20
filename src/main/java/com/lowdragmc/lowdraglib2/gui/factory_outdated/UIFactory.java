@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.factory_outdated;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.core.mixins.accessor.ServerPlayerAccessor;
 import com.lowdragmc.lowdraglib2.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib2.gui.modular.ModularUIContainer;
@@ -13,8 +15,6 @@ import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -63,7 +63,7 @@ public abstract class UIFactory<T> {
         return true;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public final void initClientUI(CompatRegistryFriendlyByteBuf serializedHolder, int windowId) {
         T holder = readHolderFromSyncData(serializedHolder);
         Minecraft minecraft = Minecraft.getInstance();
@@ -80,7 +80,7 @@ public abstract class UIFactory<T> {
 
     protected abstract ModularUI createUITemplate(T holder, Player entityPlayer);
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected abstract T readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData);
 
     protected abstract void writeHolderToSyncData(CompatRegistryFriendlyByteBuf syncData, T holder);

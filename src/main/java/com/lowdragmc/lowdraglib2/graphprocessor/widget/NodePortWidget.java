@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.graphprocessor.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
@@ -13,8 +15,6 @@ import com.lowdragmc.lowdraglib2.utils.TypeAdapter;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class NodePortWidget extends Widget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         var isConnecting = !port.getEdges().isEmpty();
@@ -105,7 +105,7 @@ public class NodePortWidget extends Widget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isMouseOverElement(mouseX, mouseY)) {
             if (button == 0 && nodeWidget.getGraphView().getClickedPort() == null) {
@@ -117,7 +117,7 @@ public class NodePortWidget extends Widget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         var clickedPort = nodeWidget.getGraphView().getClickedPort();
         if (isMouseOverElement(mouseX, mouseY)) {

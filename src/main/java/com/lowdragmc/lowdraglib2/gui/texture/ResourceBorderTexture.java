@@ -1,9 +1,9 @@
 package com.lowdragmc.lowdraglib2.gui.texture;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
 import com.lowdragmc.lowdraglib2.math.Size;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 
 @Deprecated
@@ -52,7 +52,7 @@ public class ResourceBorderTexture extends ResourceTexture {
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Override
     protected void drawSubAreaInternal(GuiGraphics graphics, float x, float y, float width, float height, float drawnU, float drawnV, float drawnWidth, float drawnHeight, float partialTicks) {
         //compute relative sizes
@@ -80,7 +80,7 @@ public class ResourceBorderTexture extends ResourceTexture {
                 cornerWidth, cornerHeight, 1 - 2 * cornerWidth, 1 - 2 * cornerHeight, partialTicks);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void drawGuides(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height, float partialTicks) {
         new ColorBorderTexture(-1, 0xffff0000).draw(graphics, 0, 0,
                 x + width * offsetX, y + height * offsetY,

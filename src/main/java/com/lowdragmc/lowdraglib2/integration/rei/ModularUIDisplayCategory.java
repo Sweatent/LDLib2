@@ -1,11 +1,11 @@
 package com.lowdragmc.lowdraglib2.integration.rei;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public abstract class ModularUIDisplayCategory<T extends ModularDisplay<?>> implements DisplayCategory<T> {
 
     @Override

@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.modular;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.google.common.base.Preconditions;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
@@ -9,8 +11,6 @@ import com.lowdragmc.lowdraglib2.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Getter;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import javax.annotation.Nullable;
@@ -38,7 +38,7 @@ public final class ModularUI {
     private int width, height;
     @Getter
     private boolean fullScreen;
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private ModularUIGuiContainer guiContainer;
     private ModularUIContainer container;
     private final List<Runnable> uiCloseCallback;
@@ -131,12 +131,12 @@ public final class ModularUI {
         uiCloseCallback.forEach(Runnable::run);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public ModularUIGuiContainer getModularUIGui() {
         return guiContainer;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void setModularUIGui(ModularUIGuiContainer modularUIGuiContainer) {
         this.guiContainer = modularUIGuiContainer;
     }
@@ -171,7 +171,7 @@ public final class ModularUI {
         return widgetList;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void setSize(int width, int height) {
         if (this.width != width || this.height != height) {
             this.width = width;
@@ -183,7 +183,7 @@ public final class ModularUI {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateScreenSize(int screenWidth, int screenHeight) {
         if (fullScreen && (screenWidth != width || screenHeight != height)) {
             width = screenWidth;

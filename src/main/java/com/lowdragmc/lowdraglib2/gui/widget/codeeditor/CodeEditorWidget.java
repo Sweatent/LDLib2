@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget.codeeditor;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
@@ -14,8 +16,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
@@ -90,7 +90,7 @@ public class CodeEditorWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isHoveringXBar) {
             isDraggingXBar = true;
@@ -153,7 +153,7 @@ public class CodeEditorWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         codeEditor.endSelection();
         isDraggingXBar = false;
@@ -164,7 +164,7 @@ public class CodeEditorWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (canConsumeInput()) {
             var previous = getLines();
@@ -229,7 +229,7 @@ public class CodeEditorWidget extends WidgetGroup {
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void adaptCursor() {
         var pos = getPosition();
         var size = getSize();
@@ -272,7 +272,7 @@ public class CodeEditorWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         if (canConsumeInput()) {
             if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT) {
@@ -284,7 +284,7 @@ public class CodeEditorWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean charTyped(char codePoint, int modifiers) {
         if (canConsumeInput()) {
             if (StringUtil.isAllowedChatCharacter(codePoint)) {
@@ -298,7 +298,7 @@ public class CodeEditorWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseWheelMove(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (isMouseOverElement(mouseX, mouseY)) {
             var size = getSize();
@@ -325,7 +325,7 @@ public class CodeEditorWidget extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         drawBackgroundTexture(graphics, mouseX, mouseY);
         var pos = getPosition();

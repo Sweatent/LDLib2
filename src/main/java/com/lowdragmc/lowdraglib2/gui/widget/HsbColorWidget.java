@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibShaders;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
@@ -14,8 +16,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -110,7 +110,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public void updateScreen() {
 		super.updateScreen();
 		if (isClientSideWidget && colorSupplier != null) {
@@ -131,7 +131,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public void drawInBackground(@NotNull @Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
 		var pose = graphics.pose().last().pose();
@@ -193,7 +193,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 	/**
 	 * have context for render hsb content
 	 */
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	private void drawHsbContext(Matrix4f pose, BufferBuilder builder, int x, int y, int width, int height) {
 		RenderSystem.setShader(LDLibShaders::getHsbShader);
 
@@ -203,7 +203,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 		BufferUploader.drawWithShader(builder.buildOrThrow());
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	private void renderMain(Matrix4f pose, BufferBuilder builder, int x, int y, int width, int height) {
 		float _h = 0, _s = 0, _b = 0f;
 
@@ -301,7 +301,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	private void renderColorSlide(Matrix4f pose, BufferBuilder builder, int x, int y, int width, int height) {
 
 		float _h = 0f, _s = 0f, _b = 0f;
@@ -365,7 +365,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 	/**
 	 * render hsb/rgb/mode info
 	 */
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	private void renderInfo(@Nonnull GuiGraphics graphics, int x, int y, int width, int height) {
 		Font font = Minecraft.getInstance().font;
 		y += 2;
@@ -384,12 +384,12 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 	/**
 	 * put hsb color into BufferBuilder
 	 */
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	private BufferBuilder putColor(BufferBuilder builder, float h, float s, float b) {
 		return putColor(builder, h, s, b, 1);
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	private BufferBuilder putColor(BufferBuilder builder, float h, float s, float b, float a) {
 		builder.setColor(ColorUtils.HSBtoRGB(h, s, b, a));
 		return builder;
@@ -418,7 +418,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		isDraggingMain = false;
 		isDraggingColorSlider = false;
@@ -490,7 +490,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
 		int x = getPosition().x;
 		int y = getPosition().y;
@@ -533,7 +533,7 @@ public class HsbColorWidget extends Widget implements IConfigurableWidget {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
+	@Environment(EnvType.CLIENT)
 	public boolean mouseReleased(double mouseX, double mouseY, int button) {
 		isDraggingMain = false;
 		isDraggingColorSlider = false;

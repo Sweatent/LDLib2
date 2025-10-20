@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.animation;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.widget.Widget;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
@@ -9,8 +11,6 @@ import com.lowdragmc.lowdraglib2.math.interpolate.Interpolator;
 import it.unimi.dsi.fastutil.floats.FloatConsumer;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 
 import javax.annotation.Nonnull;
@@ -126,7 +126,7 @@ public class Animation {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         float tickTime = getTick();
         if (tickTime >= delay) {
@@ -138,7 +138,7 @@ public class Animation {
         widget.drawInBackground(graphics, mouseX, mouseY, partialTicks);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInForeground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         float tickTime = getTick();
         if (tickTime >= delay) {

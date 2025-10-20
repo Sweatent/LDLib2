@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.ui;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.sync.UISyncManager;
 import com.lowdragmc.lowdraglib2.gui.sync.bindings.IBindable;
@@ -30,8 +32,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.lwjgl.glfw.GLFW;
@@ -56,12 +56,12 @@ public class ModularUI {
     private boolean shouldCloseOnKeyInventory = true;
 
     // runtime
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Nullable
     private ModularUIWidget widget;
     @Getter
     @Nullable
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private Screen screen;
     @Getter
     @Nullable
@@ -109,7 +109,7 @@ public class ModularUI {
     @Nullable
     private TooltipComponent tooltipComponent;
     @Nullable
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private Font tooltipFont;
     private ItemStack tooltipStack = ItemStack.EMPTY;
 
@@ -356,7 +356,7 @@ public class ModularUI {
     }
 
     /// screen only
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void setScreen(@Nullable Screen screen) {
         this.screen = screen;
     }
@@ -414,7 +414,7 @@ public class ModularUI {
      * This will trigger FocusOut event on the old focused element and FocusIn event on the new focused element.
      * @param element the element to focus, or null to clear focus
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void requestFocus(@Nullable UIElement element) {
         if (focusedElement == element) return;
 
@@ -456,12 +456,12 @@ public class ModularUI {
 
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void clearFocus() {
         requestFocus(null);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void setHoverTooltip(List<Component> tooltipTexts, ItemStack tooltipStack, @Nullable Font tooltipFont, @Nullable TooltipComponent tooltipComponent) {
         this.tooltipTexts = tooltipTexts;
         this.tooltipStack = tooltipStack;
@@ -469,7 +469,7 @@ public class ModularUI {
         this.tooltipComponent = tooltipComponent;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void cleanTooltip() {
         tooltipTexts = null;
         tooltipComponent = null;
@@ -477,7 +477,7 @@ public class ModularUI {
         tooltipStack = ItemStack.EMPTY;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public ModularUIWidget getWidget() {
         if (widget == null) {
             widget = new ModularUIWidget();
@@ -487,7 +487,7 @@ public class ModularUI {
 
     @ParametersAreNonnullByDefault
     @MethodsReturnNonnullByDefault
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public class ModularUIWidget implements GuiEventListener, NarratableEntry, Renderable {
         // narration
         @Override

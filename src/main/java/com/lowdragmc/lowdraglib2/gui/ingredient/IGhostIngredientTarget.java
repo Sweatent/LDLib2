@@ -1,13 +1,13 @@
 package com.lowdragmc.lowdraglib2.gui.ingredient;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import java.util.List;
 
 public interface IGhostIngredientTarget {
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     List<Target> getPhantomTargets(Object ingredient);
 
 }

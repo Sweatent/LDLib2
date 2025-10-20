@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.texture;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibShaders;
 import com.lowdragmc.lowdraglib2.configurator.annotation.ConfigNumber;
@@ -28,8 +30,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.appliedenergistics.yoga.YogaAlign;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.joml.Matrix4f;
@@ -137,7 +137,7 @@ public class SpriteTexture extends TransformTexture {
                 .setWrapMode(wrapMode);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public Size getImageSize() {
         if (imageSizeCache == null) {
             try {
@@ -151,7 +151,7 @@ public class SpriteTexture extends TransformTexture {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void drawInternal(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height, float partialTicks) {
         if (width <= 0 || height <= 0) {
             return;
@@ -272,7 +272,7 @@ public class SpriteTexture extends TransformTexture {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private void drawQuad(BufferBuilder buffer, Matrix4f matrix,
                           float x, float y, float w, float h,
                           float u1, float v1, float u2, float v2, int color) {
@@ -288,7 +288,7 @@ public class SpriteTexture extends TransformTexture {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void createPreview(ConfiguratorGroup father) {
         super.createPreview(father);
         var configurator = new Configurator("ldlib.gui.editor.group.base_image");
@@ -323,7 +323,7 @@ public class SpriteTexture extends TransformTexture {
                 ));
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void drawRawTextureGuides(GuiGraphics graphics, int mouseX, int mouseY, float x, float y, float width, float height, float partialTicks) {
         SpriteTexture.of(imageLocation.toString()).draw(graphics, mouseX, mouseY, x, y, width, height, partialTicks);
         // draw border guides

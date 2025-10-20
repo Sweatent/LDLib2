@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.graphprocessor.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.LDLib2Registries;
 import com.lowdragmc.lowdraglib2.Platform;
@@ -36,8 +38,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.phys.Vec2;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,7 +83,7 @@ public class GraphViewWidget extends WidgetGroup {
         this.graph = graph;
         addWidget(this.freeGraphView = new FreeGraphView(0, 0, width, height) {
             @Override
-            @OnlyIn(Dist.CLIENT)
+            @Environment(EnvType.CLIENT)
             protected void drawWidgetsBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
                 drawGraphLines(graphics, mouseX, mouseY, partialTicks);
                 super.drawWidgetsBackground(graphics, mouseX, mouseY, partialTicks);
@@ -390,7 +390,7 @@ public class GraphViewWidget extends WidgetGroup {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private void drawGraphLines(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         // existing edges
         for (var edge : graph.edges) {
@@ -418,7 +418,7 @@ public class GraphViewWidget extends WidgetGroup {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     private void drawEdge(GuiGraphics graphics, Vec2 outputPosition, Vec2 inputPosition, int startColor, int endColor) {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();

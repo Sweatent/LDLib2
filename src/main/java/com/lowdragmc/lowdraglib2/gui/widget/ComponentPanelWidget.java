@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.util.ClickData;
 import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Getter;
@@ -7,8 +9,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
 import net.minecraft.network.chat.*;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -188,7 +188,7 @@ public class ComponentPanelWidget extends Widget {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateComponentTextSize() {
         var fontRenderer = Minecraft.getInstance().font;
         int totalHeight = cacheLines.size() * (fontRenderer.lineHeight + space);
@@ -206,7 +206,7 @@ public class ComponentPanelWidget extends Widget {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void formatDisplayText() {
         var fontRenderer = Minecraft.getInstance().font;
         int maxTextWidthResult = maxWidthLimit == 0 ? Integer.MAX_VALUE : maxWidthLimit;
@@ -215,7 +215,7 @@ public class ComponentPanelWidget extends Widget {
                 .toList();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Nullable
     protected Style getStyleUnderMouse(double mouseX, double mouseY) {
         var fontRenderer = Minecraft.getInstance().font;
@@ -244,7 +244,7 @@ public class ComponentPanelWidget extends Widget {
     }
     
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         var style = getStyleUnderMouse(mouseX, mouseY);
         if (style != null) {
@@ -275,7 +275,7 @@ public class ComponentPanelWidget extends Widget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInForeground(@NotNull @Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         var style = getStyleUnderMouse(mouseX, mouseY);
         if (style != null) {
@@ -292,7 +292,7 @@ public class ComponentPanelWidget extends Widget {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         var fontRenderer = Minecraft.getInstance().font;

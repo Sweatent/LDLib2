@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.gui.widget;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.google.common.base.Preconditions;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.animation.Animation;
@@ -21,8 +23,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -308,7 +308,7 @@ public class Widget {
         return Rect.of(position, size);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public Rect2i toRectangleBox() {
         Position pos = getPosition();
         Size size = getSize();
@@ -369,7 +369,7 @@ public class Widget {
     /**
      * Called clientside every tick with this modular UI open
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateScreen() {
         if (align != Align.NONE && isParent(parent)) {
             switch (align) {
@@ -386,7 +386,7 @@ public class Widget {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void drawTooltipTexts(int mouseX, int mouseY) {
         if (tooltipTexts.size() > 0 && isMouseOverElement(mouseX, mouseY) && getHoverElement(mouseX, mouseY) == this && gui != null && gui.getModularUIGui() != null) {
             gui.getModularUIGui().setHoverTooltip(tooltipTexts, ItemStack.EMPTY, null, null);
@@ -396,12 +396,12 @@ public class Widget {
     /**
      * Called each draw tick to draw this widget in GUI
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInForeground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         drawTooltipTexts(mouseX, mouseY);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void drawBackgroundTexture(@Nonnull GuiGraphics graphics, int mouseX, int mouseY) {
         var isHovered = isMouseOverElement(mouseX, mouseY);
         if (backgroundTexture != null && (!isHovered || drawBackgroundWhenHover)) {
@@ -419,12 +419,12 @@ public class Widget {
     /**
      * Called each draw tick to draw this widget in GUI
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         drawBackgroundTexture(graphics, mouseX, mouseY);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawOverlay(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         if (overlay != null) {
             Position pos = getPosition();
@@ -436,7 +436,7 @@ public class Widget {
      * Called when mouse wheel is moved in GUI
      * For some -redacted- reason mouseX position is relative against GUI not game window as in other mouse events
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseWheelMove(double mouseX, double mouseY, double scrollX, double scrollY) {
         return false;
     }
@@ -444,7 +444,7 @@ public class Widget {
     /**
      * Called when mouse is clicked in GUI
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         draggingElement = null;
         tryToDrag = false;
@@ -458,7 +458,7 @@ public class Widget {
     /**
      * Called when mouse is pressed and hold down in GUI
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (!isMouseOverElement(mouseX, mouseY) && tryToDrag && draggingProvider != null && draggingRenderer != null) {
             var element = draggingProvider.get();
@@ -481,7 +481,7 @@ public class Widget {
         return false;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseMoved(double mouseX, double mouseY) {
         return false;
     }
@@ -489,7 +489,7 @@ public class Widget {
     /**
      * Called when mouse is released in GUI
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         tryToDrag = false;
         if (isMouseOverElement(mouseX, mouseY) && getGui() != null && draggingAccept.test(getGui().getModularUIGui().getDraggingElement())) {
@@ -507,17 +507,17 @@ public class Widget {
     /**
      * Called when key is typed in GUI
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         return false;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         return false;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean charTyped(char codePoint, int modifiers) {
         return false;
     }
@@ -525,7 +525,7 @@ public class Widget {
     /**
      * setFocus should always be called after child widgets logic
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public final void setFocus(boolean focus) {
         if (gui != null) {
             ModularUIGuiContainer guiContainer = gui.getModularUIGui();
@@ -545,7 +545,7 @@ public class Widget {
         }
     }
     
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void onFocusChanged(@Nullable Widget lastFocus, Widget focus) {
         
     }
@@ -553,7 +553,7 @@ public class Widget {
     /**
      * Read data received from server's {@link #writeUpdateInfo}
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void readUpdateInfo(int id, CompatRegistryFriendlyByteBuf buffer) {
     }
 
@@ -569,42 +569,42 @@ public class Widget {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected final void writeClientAction(int id, Consumer<CompatRegistryFriendlyByteBuf> buffer) {
         if (uiAccess != null && !isClientSideWidget) {
             uiAccess.writeClientAction(this, id, buffer);
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public static void playButtonClickSound() {
         Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public static boolean isShiftDown() {
         long id = Minecraft.getInstance().getWindow().getWindow();
         return InputConstants.isKeyDown(id, GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(id, GLFW.GLFW_KEY_LEFT_SHIFT);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public static boolean isCtrlDown() {
         return Screen.hasControlDown();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public static boolean isAltDown() {
         long id = Minecraft.getInstance().getWindow().getWindow();
         return InputConstants.isKeyDown(id, GLFW.GLFW_KEY_LEFT_ALT) || InputConstants.isKeyDown(id, GLFW.GLFW_KEY_RIGHT_ALT);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public static boolean isKeyDown(int keyCode) {
         long id = Minecraft.getInstance().getWindow().getWindow();
         return InputConstants.isKeyDown(id, keyCode);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean isMouseDown(int button) {
         return gui != null && gui.getModularUIGui().isButtonPressed(button);
     }
@@ -623,11 +623,11 @@ public class Widget {
         return parent.isParent(widgetGroup);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void onScreenSizeUpdate(int screenWidth, int screenHeight) {
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public List<Rect2i> getGuiExtraAreas(Rect2i guiRect, List<Rect2i> list) {
         Rect2i rect2i = toRectangleBox();
         if (rect2i.getX() < guiRect.getX()

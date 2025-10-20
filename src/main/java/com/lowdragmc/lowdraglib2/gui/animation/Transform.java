@@ -1,13 +1,13 @@
 package com.lowdragmc.lowdraglib2.gui.animation;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import com.lowdragmc.lowdraglib2.math.interpolate.IEase;
 import it.unimi.dsi.fastutil.floats.FloatConsumer;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -90,7 +90,7 @@ public class Transform extends Animation {
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void pre(@NotNull GuiGraphics graphics) {
         graphics.pose().pushPose();
         Position position = widget.getPosition();
@@ -111,12 +111,12 @@ public class Transform extends Animation {
         graphics.pose().translate(-oX, -oY,0);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void post(@NotNull GuiGraphics graphics) {
         graphics.pose().popPose();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         float tickTime = getTick();
         if (tickTime >= delay) {
@@ -131,7 +131,7 @@ public class Transform extends Animation {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInForeground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         float tickTime = getTick();
         if (tickTime >= delay) {

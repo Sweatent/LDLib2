@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.editor_outdated.ui;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.animation.Transform;
 import com.lowdragmc.lowdraglib2.gui.ColorPattern;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
@@ -10,8 +12,6 @@ import com.lowdragmc.lowdraglib2.math.Size;
 import com.lowdragmc.lowdraglib2.math.interpolate.Eases;
 import lombok.Getter;
 import lombok.Setter;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,7 @@ public class ToolPanel extends WidgetGroup {
         var toolBox = toolBoxSupplier.apply(Size.of(getSizeWidth(), getSize().height - 15));
         tabContainer.addTab((TabButton) new TabButton(getSizeWidth() + 4, 4 + toolBoxes.size() * 20, 12, 12) {
             @Override
-            @OnlyIn(Dist.CLIENT)
+            @Environment(EnvType.CLIENT)
             public boolean mouseClicked(double mouseX, double mouseY, int button) {
                 if(isMouseOverElement(mouseX, mouseY)) {
                     show();

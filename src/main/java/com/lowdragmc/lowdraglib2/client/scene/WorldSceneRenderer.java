@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.client.scene;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.client.shader.management.ShaderManager;
 import com.lowdragmc.lowdraglib2.client.utils.glu.Project;
 import com.lowdragmc.lowdraglib2.configurator.ConfiguratorParser;
@@ -15,8 +17,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.client.gui.screens.LoadingOverlay;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
@@ -58,7 +58,7 @@ import static net.minecraft.world.level.block.RenderShape.INVISIBLE;
  * @date 2022/05/25
  * @implNote render a scene, through VBO compilation scene, greatly optimize rendering performance.
  */
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 @Accessors(chain = true)
 public abstract class WorldSceneRenderer {
     protected static final FloatBuffer MODELVIEW_MATRIX_BUFFER = ByteBuffer.allocateDirect(16 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();

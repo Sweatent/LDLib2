@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.integration.kjs.ui;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.gui.factory_outdated.UIFactory;
 import com.lowdragmc.lowdraglib2.gui.modular.IUIHolder;
@@ -11,8 +13,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class ItemUIJSFactory extends UIFactory<ItemUIJSFactory.ItemAccess> {
     public static final ItemUIJSFactory INSTANCE = new ItemUIJSFactory();
@@ -60,7 +60,7 @@ public class ItemUIJSFactory extends UIFactory<ItemUIJSFactory.ItemAccess> {
         return null;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Override
     protected ItemAccess readHolderFromSyncData(CompatRegistryFriendlyByteBuf syncData) {
         return new ItemAccess(syncData.readEnum(InteractionHand.class), syncData.readUtf());

@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.editor_outdated.ui;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.gui.texture.Icons;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.IConfigurableWidget;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.IConfigurableWidgetGroup;
@@ -13,8 +15,6 @@ import com.lowdragmc.lowdraglib2.math.Size;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.nbt.CompoundTag;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -49,7 +49,7 @@ public class MainPanel extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseMoved(double mouseX, double mouseY) {
         // find hover widget
         var hovered = getHoverElement(mouseX, mouseY);
@@ -64,7 +64,7 @@ public class MainPanel extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (hoverUI == null) {
             selectedUIs.clear();
@@ -292,7 +292,7 @@ public class MainPanel extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
 
@@ -334,7 +334,7 @@ public class MainPanel extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         double dx = deltaX + lastDeltaX;
         double dy = deltaY + lastDeltaY;
@@ -360,7 +360,7 @@ public class MainPanel extends WidgetGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (hoverUI != null && hoverUI.mouseReleased(mouseX, mouseY, button)) {
             return true;

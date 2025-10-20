@@ -1,5 +1,7 @@
 package com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.sceneobject.utils;
 
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
 import com.lowdragmc.lowdraglib2.client.shader.LDLibRenderTypes;
 import com.lowdragmc.lowdraglib2.client.utils.RenderBufferUtils;
 import com.lowdragmc.lowdraglib2.editor.ui.sceneeditor.SceneEditor;
@@ -17,8 +19,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -142,7 +142,7 @@ public class TransformGizmo extends SceneObject implements ISceneRendering, ISce
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void updateFrame(float partialTicks) {
         super.updateFrame(partialTicks);
         if (getScene() instanceof SceneEditor editor && editor.getModularUI() != null) {
@@ -260,7 +260,7 @@ public class TransformGizmo extends SceneObject implements ISceneRendering, ISce
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void drawInternal(PoseStack poseStack, MultiBufferSource bufferSource, float partialTicks) {
         if (targetTransform == null) return;
         var buffer = bufferSource.getBuffer(LDLibRenderTypes.noDepthLines());
