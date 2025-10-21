@@ -2,6 +2,7 @@ package com.lowdragmc.lowdraglib2.utils.virtuallevel;
 
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.EnvType;
+import com.lowdragmc.lowdraglib2.fabric.events.DummyWorldEvents;
 import com.google.common.base.Suppliers;
 import com.lowdragmc.lowdraglib2.LDLib2;
 import com.lowdragmc.lowdraglib2.Platform;
@@ -300,7 +301,7 @@ public class DummyWorld extends Level {
     }
 
     public void addEntity(Entity entity) {
-        if (net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(new net.neoforged.neoforge.event.entity.EntityJoinLevelEvent(entity, this)).isCanceled()) return;
+        if (!DummyWorldEvents.ENTITY_JOIN.invoker().onEntityJoin(this, entity)) return;
         this.removeEntity(entity.getId(), Entity.RemovalReason.DISCARDED);
         this.entityStorage.addEntity(entity);
         entity.onAddedToLevel();
@@ -335,10 +336,9 @@ public class DummyWorld extends Level {
         pEntity.setOldPosAndRot();
         pEntity.tickCount++;
         this.getProfiler().push(() -> BuiltInRegistries.ENTITY_TYPE.getKey(pEntity.getType()).toString());
-        // Neo: Permit cancellation of Entity#tick via EntityTickEvent.Pre
-        if (!net.neoforged.neoforge.event.EventHooks.fireEntityTickPre(pEntity).isCanceled()) {
+        if (DummyWorldEvents.ENTITY_TICK_PRE.invoker().onEntityTick(this, pEntity)) {
             pEntity.tick();
-            net.neoforged.neoforge.event.EventHooks.fireEntityTickPost(pEntity);
+            DummyWorldEvents.ENTITY_TICK_POST.invoker().onEntityTick(this, pEntity);
         }
         this.getProfiler().pop();
 

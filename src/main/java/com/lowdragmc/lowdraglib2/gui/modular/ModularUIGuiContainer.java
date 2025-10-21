@@ -29,9 +29,7 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.event.ContainerScreenEvent;
-import net.neoforged.neoforge.client.event.ScreenEvent;
-import net.neoforged.neoforge.common.NeoForge;
+import com.lowdragmc.lowdraglib2.fabric.events.ContainerScreenRenderEvents;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -135,13 +133,13 @@ public class ModularUIGuiContainer extends AbstractContainerScreen<ModularUICont
         this.renderBackground(graphics, mouseX, mouseY, partialTicks);
 
         RenderSystem.depthMask(true);
-        NeoForge.EVENT_BUS.post(new ScreenEvent.BackgroundRendered(this, graphics));
+        ContainerScreenRenderEvents.SCREEN_BACKGROUND.invoker().onRender(this, graphics, mouseX, mouseY, partialTicks);
         RenderSystem.depthMask(false);
 
         modularUI.mainGroup.drawInBackground(graphics, mouseX, mouseY, partialTicks);
 
         RenderSystem.depthMask(true);
-        NeoForge.EVENT_BUS.post(new ContainerScreenEvent.Render.Background(this, graphics, mouseX, mouseY));
+        ContainerScreenRenderEvents.CONTAINER_BACKGROUND.invoker().onRender(this, graphics, mouseX, mouseY, partialTicks);
         RenderSystem.depthMask(false);
 
         if (LDLib2.isEmiLoaded()) {
@@ -168,7 +166,7 @@ public class ModularUIGuiContainer extends AbstractContainerScreen<ModularUICont
         posestack.pushPose();
         posestack.translate(leftPos, topPos, 232);
 
-        NeoForge.EVENT_BUS.post(new ContainerScreenEvent.Render.Foreground(this, graphics, mouseX, mouseY));
+        ContainerScreenRenderEvents.CONTAINER_FOREGROUND.invoker().onRender(this, graphics, mouseX, mouseY, partialTicks);
 
         renderItemStackOnMouse(graphics, mouseX, mouseY);
         renderReturningItemStack(graphics);

@@ -15,8 +15,7 @@ import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
+import com.lowdragmc.lowdraglib2.fabric.events.PlayerContainerEvents;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashMap;
@@ -59,7 +58,7 @@ public abstract class UIFactory<T> {
         ((ServerPlayerAccessor)player).callInitMenu(container);
         player.containerMenu = container;
 
-        NeoForge.EVENT_BUS.post(new PlayerContainerEvent.Open(player, container));
+        PlayerContainerEvents.OPEN.invoker().onOpen(player, container);
         return true;
     }
 
