@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
+
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import java.util.function.Function;
 
-public class ItemStackTransfer extends ItemStackHandler implements IContentChangeAware {
+public class ItemStackTransfer extends FabricItemContainer implements IContentChangeAware {
     @Getter
     @Setter
     private Runnable OnContentsChanged = Runnables.doNothing();
@@ -24,11 +25,11 @@ public class ItemStackTransfer extends ItemStackHandler implements IContentChang
     }
 
     public ItemStackTransfer(int size) {
-        stacks = NonNullList.withSize(size, ItemStack.EMPTY);
+        super(size);
     }
 
     public ItemStackTransfer(NonNullList<ItemStack> stacks) {
-        this.stacks = stacks;
+        super(stacks.toArray(ItemStack[]::new), 64);
     }
 
     public ItemStackTransfer(ItemStack stack) {
@@ -36,10 +37,12 @@ public class ItemStackTransfer extends ItemStackHandler implements IContentChang
     }
 
     public void setStackInSlot(int slot, @Nonnull ItemStack stack, boolean notify) {
-        validateSlotIndex(slot);
-        this.stacks.set(slot, stack);
         if (notify) {
-            onContentsChanged(slot);
+            super.setStackInSlot(slot, stack);
+        } else {
+            ItemStack copy = stack.copy();
+            copy.setCount(Math.min(copy.getCount(), getSlotLimit(slot)));
+            this.stacks[slot] = copy;
         }
     }
 
@@ -54,12 +57,67 @@ public class ItemStackTransfer extends ItemStackHandler implements IContentChang
     }
 
     public ItemStackTransfer copy() {
-        var copiedStack = NonNullList.withSize(stacks.size(), ItemStack.EMPTY);
-        for (int i = 0; i < stacks.size(); i++) {
-            copiedStack.set(i, stacks.get(i).copy());
+        var copiedStack = NonNullList.withSize(getSlots(), ItemStack.EMPTY);
+        for (int i = 0; i < getSlots(); i++) {
+            copiedStack.set(i, getStackInSlot(i).copy());
         }
         var copied = new ItemStackTransfer(copiedStack);
         copied.setFilter(filter);
         return copied;
+    }
+
+    /**
+     * Returns a delegating {@link ItemStackHandler} for integrations that still require
+     * NeoForge's concrete container implementation.
+     */
+    public ItemStackHandler asItemStackHandler() {
+        return new DelegatingHandler(this);
+    }
+
+    private static final class DelegatingHandler extends ItemStackHandler {
+        private final ItemStackTransfer transfer;
+
+        private DelegatingHandler(ItemStackTransfer transfer) {
+            super(transfer.getSlots());
+            this.transfer = transfer;
+        }
+
+        @Override
+        public int getSlots() {
+            return transfer.getSlots();
+        }
+
+        @Nonnull
+        @Override
+        public ItemStack getStackInSlot(int slot) {
+            return transfer.getStackInSlot(slot);
+        }
+
+        @Override
+        public void setStackInSlot(int slot, ItemStack stack) {
+            transfer.setStackInSlot(slot, stack);
+        }
+
+        @Nonnull
+        @Override
+        public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+            return transfer.insertItem(slot, stack, simulate);
+        }
+
+        @Nonnull
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            return transfer.extractItem(slot, amount, simulate);
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return transfer.getSlotLimit(slot);
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+            return transfer.isItemValid(slot, stack);
+        }
     }
 }

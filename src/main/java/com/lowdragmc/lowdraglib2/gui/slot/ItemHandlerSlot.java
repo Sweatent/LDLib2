@@ -5,6 +5,7 @@ import com.lowdragmc.lowdraglib2.gui.widget.SlotWidget;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import com.lowdragmc.lowdraglib2.misc.ItemTransfer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
@@ -26,18 +27,30 @@ public class ItemHandlerSlot extends Slot {
     @Getter @Setter @Accessors(chain = true)
     private Predicate<Player> canTake = Predicates.alwaysTrue();
     @Getter
-    private final IItemHandlerModifiable itemHandler;
+    private final ItemTransfer itemHandler;
     private final int index;
     private final List<Runnable> changeListeners = new ArrayList<>();
 
-    public ItemHandlerSlot(IItemHandlerModifiable itemHandler, int index) {
+    public ItemHandlerSlot(ItemTransfer itemHandler, int index) {
         this(itemHandler, index, 0, 0);
     }
 
-    public ItemHandlerSlot(IItemHandlerModifiable itemHandler, int index, int xPosition, int yPosition) {
+    public ItemHandlerSlot(ItemTransfer itemHandler, int index, int xPosition, int yPosition) {
         super(emptyInventory, index, xPosition, yPosition);
         this.itemHandler = itemHandler;
         this.index = index;
+    }
+
+    public ItemHandlerSlot(IItemHandlerModifiable itemHandler, int index) {
+        this(ItemTransfer.of(itemHandler), index, 0, 0);
+    }
+
+    public ItemHandlerSlot(IItemHandlerModifiable itemHandler, int index, int xPosition, int yPosition) {
+        this(ItemTransfer.of(itemHandler), index, xPosition, yPosition);
+    }
+
+    public IItemHandlerModifiable asItemHandler() {
+        return itemHandler.asItemHandler();
     }
 
     public ItemHandlerSlot addChangeListener(Runnable listener) {

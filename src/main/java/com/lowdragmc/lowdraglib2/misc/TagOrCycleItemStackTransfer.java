@@ -16,7 +16,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TagOrCycleItemStackTransfer implements IItemHandlerModifiable {
+public class TagOrCycleItemStackTransfer implements ItemTransfer, IItemHandlerModifiable {
     @Getter
     private List<Either<List<Pair<TagKey<Item>, Integer>>, List<ItemStack>>> stacks;
 
