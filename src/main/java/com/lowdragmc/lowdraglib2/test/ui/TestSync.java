@@ -14,6 +14,8 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.inventory.InventorySlots;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
+import com.lowdragmc.lowdraglib2.misc.FluidStorage;
+import com.lowdragmc.lowdraglib2.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -24,8 +26,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.appliedenergistics.yoga.YogaFlexDirection;
 import org.appliedenergistics.yoga.YogaWrap;
@@ -39,8 +39,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TestSync implements IMenuTest {
-    private final FluidTank fluidTank = new FluidTank(2000);
-    private final ItemStackHandler itemHandler = new ItemStackHandler(10);
+    private final FluidStorage fluidTank = new FluidStorage(2000);
+    private final ItemStackTransfer itemHandler = new ItemStackTransfer(10);
     @Nullable
     private Block block = null;
 

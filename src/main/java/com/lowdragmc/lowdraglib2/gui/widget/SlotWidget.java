@@ -18,6 +18,7 @@ import com.lowdragmc.lowdraglib2.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib2.integration.jei.IngredientIO;
 import com.lowdragmc.lowdraglib2.integration.jei.JEIPlugin;
 import com.lowdragmc.lowdraglib2.misc.CycleItemStackHandler;
+import com.lowdragmc.lowdraglib2.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
 import com.lowdragmc.lowdraglib2.misc.TagOrCycleItemStackTransfer;
@@ -52,7 +53,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -716,7 +716,7 @@ public class SlotWidget extends Widget implements IRecipeIngredientSlot, IConfig
 
     @Override
     public void buildConfigurator(ConfiguratorGroup father) {
-        var handler = new ItemStackHandler();
+        var handler = new ItemStackTransfer();
         handler.setStackInSlot(0, Blocks.STONE.asItem().getDefaultInstance());
         father.addConfigurators(new WrapperConfigurator("ldlib.gui.editor.group.preview", new SlotWidget() {
             @Override
