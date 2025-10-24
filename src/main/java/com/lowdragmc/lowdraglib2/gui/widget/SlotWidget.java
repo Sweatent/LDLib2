@@ -20,6 +20,7 @@ import com.lowdragmc.lowdraglib2.integration.jei.JEIPlugin;
 import com.lowdragmc.lowdraglib2.misc.CycleItemStackHandler;
 import com.lowdragmc.lowdraglib2.math.Position;
 import com.lowdragmc.lowdraglib2.math.Size;
+import com.lowdragmc.lowdraglib2.misc.ItemTransfer;
 import com.lowdragmc.lowdraglib2.misc.TagOrCycleItemStackTransfer;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Window;
@@ -125,7 +126,7 @@ public class SlotWidget extends Widget implements IRecipeIngredientSlot, IConfig
         setContainerSlot(inventory, slotIndex);
     }
 
-    public SlotWidget(IItemHandlerModifiable itemHandler, int slotIndex, int xPosition, int yPosition, boolean canTakeItems, boolean canPutItems) {
+    public SlotWidget(ItemTransfer itemHandler, int slotIndex, int xPosition, int yPosition, boolean canTakeItems, boolean canPutItems) {
         super(Position.of(xPosition, yPosition), Size.of(18, 18));
         setBackgroundTexture(SlotWidget.ITEM_SLOT_TEXTURE);
         this.canTakeItems = canTakeItems;
@@ -133,11 +134,15 @@ public class SlotWidget extends Widget implements IRecipeIngredientSlot, IConfig
         setHandlerSlot(itemHandler, slotIndex);
     }
 
+    public SlotWidget(IItemHandlerModifiable itemHandler, int slotIndex, int xPosition, int yPosition, boolean canTakeItems, boolean canPutItems) {
+        this(ItemTransfer.of(itemHandler), slotIndex, xPosition, yPosition, canTakeItems, canPutItems);
+    }
+
     protected Slot createSlot(Container inventory, int index) {
         return new WidgetSlot(inventory, index, 0, 0);
     }
 
-    protected Slot createSlot(IItemHandlerModifiable itemHandler, int index) {
+    protected Slot createSlot(ItemTransfer itemHandler, int index) {
         return new WidgetSlotItemTransfer(itemHandler, index, 0, 0);
     }
 
@@ -146,9 +151,13 @@ public class SlotWidget extends Widget implements IRecipeIngredientSlot, IConfig
         return this;
     }
 
-    public SlotWidget setHandlerSlot(IItemHandlerModifiable itemHandler, int slotIndex) {
+    public SlotWidget setHandlerSlot(ItemTransfer itemHandler, int slotIndex) {
         updateSlot(createSlot(itemHandler, slotIndex));
         return this;
+    }
+
+    public SlotWidget setHandlerSlot(IItemHandlerModifiable itemHandler, int slotIndex) {
+        return setHandlerSlot(ItemTransfer.of(itemHandler), slotIndex);
     }
 
     protected void updateSlot(Slot slot) {
@@ -344,8 +353,12 @@ public class SlotWidget extends Widget implements IRecipeIngredientSlot, IConfig
         }
     }
 
-    public SlotWidget(IItemHandlerModifiable itemHandler, int slotIndex, int xPosition, int yPosition) {
+    public SlotWidget(ItemTransfer itemHandler, int slotIndex, int xPosition, int yPosition) {
         this(itemHandler, slotIndex, xPosition, yPosition, true, true);
+    }
+
+    public SlotWidget(IItemHandlerModifiable itemHandler, int slotIndex, int xPosition, int yPosition) {
+        this(ItemTransfer.of(itemHandler), slotIndex, xPosition, yPosition, true, true);
     }
 
     public SlotWidget(Container inventory, int slotIndex, int xPosition, int yPosition) {
@@ -636,10 +649,10 @@ public class SlotWidget extends Widget implements IRecipeIngredientSlot, IConfig
     public class WidgetSlotItemTransfer extends Slot {
         private static final Container emptyInventory = new SimpleContainer(0);
         @Getter
-        private final IItemHandlerModifiable itemHandler;
+        private final ItemTransfer itemHandler;
         private final int index;
 
-        public WidgetSlotItemTransfer(IItemHandlerModifiable itemHandler, int index, int xPosition, int yPosition) {
+        public WidgetSlotItemTransfer(ItemTransfer itemHandler, int index, int xPosition, int yPosition) {
             super(emptyInventory, index, xPosition, yPosition);
             this.itemHandler = itemHandler;
             this.index = index;

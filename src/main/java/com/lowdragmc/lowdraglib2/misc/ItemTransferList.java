@@ -6,8 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import com.lowdragmc.lowdraglib2.nbt.CompoundTagSerializable;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,23 +18,33 @@ import java.util.function.Predicate;
  * @date 2023/2/25
  * @implNote ItemTransferList
  */
-public class ItemTransferList implements IItemHandlerModifiable, CompoundTagSerializable {
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
-    public final IItemHandlerModifiable[] transfers;
+public class ItemTransferList implements ItemTransfer, IItemHandlerModifiable, CompoundTagSerializable {
+
+    public final ItemTransfer[] transfers;
     @Setter
     protected Predicate<ItemStack> filter = item -> true;
 
-    public ItemTransferList(IItemHandlerModifiable... transfers) {
+    public ItemTransferList(ItemTransfer... transfers) {
         this.transfers = transfers;
     }
 
+    public ItemTransferList(IItemHandlerModifiable... transfers) {
+        this(Arrays.stream(transfers).map(ItemTransfer::of).toArray(ItemTransfer[]::new));
+    }
+
+    public ItemTransferList(List<? extends ItemTransfer> transfers) {
+        this.transfers = transfers.toArray(ItemTransfer[]::new);
+    }
+
     public ItemTransferList(List<IItemHandlerModifiable> transfers) {
-        this.transfers = transfers.toArray(IItemHandlerModifiable[]::new);
+        this(transfers.stream().map(ItemTransfer::of).toArray(ItemTransfer[]::new));
     }
 
     @Override
     public int getSlots() {
-        return Arrays.stream(transfers).mapToInt(IItemHandler::getSlots).sum();
+        return Arrays.stream(transfers).mapToInt(ItemTransfer::getSlots).sum();
     }
 
     @NotNull

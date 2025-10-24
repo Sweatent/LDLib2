@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 import mezz.jei.api.ingredients.ITypedIngredient;
 import com.lowdragmc.lowdraglib2.networking.compat.CompatRegistryFriendlyByteBuf;
+import com.lowdragmc.lowdraglib2.misc.ItemTransfer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +25,6 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
@@ -47,7 +47,11 @@ public class PhantomSlotWidget extends SlotWidget implements IGhostIngredientTar
         super();
     }
 
-    public PhantomSlotWidget(IItemHandlerModifiable itemHandler, int slotIndex, int xPosition, int yPosition) {
+    public PhantomSlotWidget(ItemTransfer itemHandler, int slotIndex, int xPosition, int yPosition) {
+        super(itemHandler, slotIndex, xPosition, yPosition, true, true);
+    }
+
+    public PhantomSlotWidget(net.neoforged.neoforge.items.IItemHandlerModifiable itemHandler, int slotIndex, int xPosition, int yPosition) {
         super(itemHandler, slotIndex, xPosition, yPosition, true, true);
     }
 

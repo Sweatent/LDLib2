@@ -1,14 +1,14 @@
 package com.lowdragmc.lowdraglib2.graphprocessor.nodes.minecraft.item;
 
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
-import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.utils.ConfiguratorParser;
 import com.lowdragmc.lowdraglib2.graphprocessor.annotation.InputPort;
 import com.lowdragmc.lowdraglib2.graphprocessor.annotation.OutputPort;
 import com.lowdragmc.lowdraglib2.graphprocessor.data.trigger.LinearTriggerNode;
+import com.lowdragmc.lowdraglib2.misc.ItemTransfer;
+import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 @LDLRegister(name = "item extract", group = "graph_processor.node.minecraft.item", registry = "ldlib2:graph_node")
 public class ItemTransferExtractNode extends LinearTriggerNode {
     @InputPort(name = "item transfer")
-    public IItemHandler itemTransfer;
+    public ItemTransfer itemTransfer;
     @InputPort
     public Integer amount;
     @InputPort(name = "slot index")
