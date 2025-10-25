@@ -1,18 +1,18 @@
 package com.lowdragmc.lowdraglib2.graphprocessor.nodes.minecraft.item;
 
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
-import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.graphprocessor.annotation.InputPort;
 import com.lowdragmc.lowdraglib2.graphprocessor.annotation.OutputPort;
 import com.lowdragmc.lowdraglib2.graphprocessor.data.BaseNode;
+import com.lowdragmc.lowdraglib2.misc.ItemTransfer;
+import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
 
 @LDLRegister(name = "item transfer info", group = "graph_processor.node.minecraft.item", registry = "ldlib2:graph_node")
 public class ItemTransferInfoNode extends BaseNode {
     @InputPort(name = "item transfer")
-    public IItemHandler itemTransfer;
+    public ItemTransfer itemTransfer;
     @InputPort(name = "slot index")
     public Integer slot;
     @OutputPort(name = "slot size")

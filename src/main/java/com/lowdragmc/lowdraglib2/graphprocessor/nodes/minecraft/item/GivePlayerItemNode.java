@@ -1,15 +1,15 @@
 package com.lowdragmc.lowdraglib2.graphprocessor.nodes.minecraft.item;
 
 import com.lowdragmc.lowdraglib2.configurator.annotation.Configurable;
-import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import com.lowdragmc.lowdraglib2.editor_outdated.configurator.ConfiguratorGroup;
 import com.lowdragmc.lowdraglib2.utils.ConfiguratorParser;
 import com.lowdragmc.lowdraglib2.graphprocessor.annotation.InputPort;
 import com.lowdragmc.lowdraglib2.graphprocessor.annotation.OutputPort;
 import com.lowdragmc.lowdraglib2.graphprocessor.data.trigger.LinearTriggerNode;
+import com.lowdragmc.lowdraglib2.misc.ItemTransfer;
+import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class GivePlayerItemNode extends LinearTriggerNode {
     @InputPort(name = "preferred slot", tips = "If the inventory can't hold it, the item will be dropped in the world at the players position.")
     public Integer preferredSlot;
     @OutputPort(name = "item transfer")
-    public IItemHandler itemTransfer;
+    public ItemTransfer itemTransfer;
     @Configurable(name = "preferred slot")
     public int internalPreferredSlot;
 

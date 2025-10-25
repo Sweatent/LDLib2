@@ -24,6 +24,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import com.lowdragmc.lowdraglib2.misc.ItemTransfer;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.jetbrains.annotations.Nullable;
@@ -73,6 +74,11 @@ public class ItemSlot extends BindableUIElement<ItemStack> {
         addEventListener(UIEvents.HOVER_TOOLTIPS, this::onHoverTooltips);
         addEventListener(UIEvents.MOUSE_DOWN, this::onMouseDown);
         this.slot = slot;
+    }
+
+    public ItemSlot bind(ItemTransfer transfer, int index) {
+        bind(new ItemHandlerSlot(transfer, index));
+        return this;
     }
 
     public ItemSlot bind(IItemHandlerModifiable itemHandlerModifiable, int index) {
