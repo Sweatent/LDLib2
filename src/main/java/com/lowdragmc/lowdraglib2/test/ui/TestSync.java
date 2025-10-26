@@ -15,6 +15,8 @@ import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.styletemplate.Sprites;
 import com.lowdragmc.lowdraglib2.gui.ui.utils.UIElementProvider;
 import com.lowdragmc.lowdraglib2.registry.annotation.LDLRegister;
+import com.lowdragmc.lowdraglib2.misc.FabricFluidTransfer;
+import com.lowdragmc.lowdraglib2.misc.FabricItemTransfer;
 import com.lowdragmc.lowdraglib2.utils.search.IResultHandler;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,8 +26,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.appliedenergistics.yoga.YogaFlexDirection;
 import org.appliedenergistics.yoga.YogaWrap;
@@ -39,13 +39,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TestSync implements IMenuTest {
-    private final FluidTank fluidTank = new FluidTank(2000);
-    private final ItemStackHandler itemHandler = new ItemStackHandler(10);
+    private final FabricFluidTransfer fluidTank = new FabricFluidTransfer(2000);
+    private final FabricItemTransfer itemHandler = new FabricItemTransfer(10);
     @Nullable
     private Block block = null;
 
     public TestSync() {
-        fluidTank.setFluid(new FluidStack(Fluids.WATER, 1400));
+        fluidTank.setFluidInTank(0, new FluidStack(Fluids.WATER, 1400));
         itemHandler.setStackInSlot(0, Items.STONE.getDefaultInstance().copyWithCount(10));
         itemHandler.setStackInSlot(1, Items.BAMBOO.getDefaultInstance().copyWithCount(32));
     }
@@ -77,10 +77,11 @@ public class TestSync implements IMenuTest {
                 new ItemSlot().bind(new ItemHandlerSlot(itemHandler, 2).setCanPlace(itemStack -> itemStack.is(Items.STONE))),
                 new FluidSlot().bind(fluidTank, 0),
                 new Button().addServerEventListener(UIEvents.MOUSE_DOWN, e -> {
-                    if (fluidTank.getFluid().getFluid() == Fluids.WATER) {
-                        fluidTank.setFluid(new FluidStack(Fluids.LAVA, fluidTank.getFluid().getAmount()));
+                    var current = fluidTank.getFluidInTank(0);
+                    if (current.getFluid() == Fluids.WATER) {
+                        fluidTank.setFluidInTank(0, new FluidStack(Fluids.LAVA, current.getAmount()));
                     } else {
-                        fluidTank.setFluid(new FluidStack(Fluids.WATER, fluidTank.getFluid().getAmount()));
+                        fluidTank.setFluidInTank(0, new FluidStack(Fluids.WATER, current.getAmount()));
                     }
                 }),
                 new SearchComponent<>(new SearchComponent.ISearchUI<Block>() {

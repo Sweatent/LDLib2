@@ -19,6 +19,7 @@ import com.lowdragmc.lowdraglib2.integration.jei.ClickableIngredient;
 import com.lowdragmc.lowdraglib2.integration.jei.IngredientIO;
 import com.lowdragmc.lowdraglib2.integration.jei.JEIPlugin;
 import com.lowdragmc.lowdraglib2.utils.FluidHelper;
+import com.lowdragmc.lowdraglib2.misc.FabricFluidTransfer;
 import com.lowdragmc.lowdraglib2.misc.IFluidHandlerModifiable;
 import com.lowdragmc.lowdraglib2.misc.CycleFluidTransfer;
 import com.lowdragmc.lowdraglib2.math.Position;
@@ -60,7 +61,6 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -649,7 +649,7 @@ public class TankWidget extends Widget implements IRecipeIngredientSlot, IConfig
 
     @Override
     public void buildConfigurator(ConfiguratorGroup father) {
-        var handler = new FluidTank(5000);
+        var handler = new FabricFluidTransfer(5000);
         handler.fill(new FluidStack(Fluids.WATER, 3000), IFluidHandler.FluidAction.EXECUTE);
         father.addConfigurators(new WrapperConfigurator("ldlib.gui.editor.group.preview", new TankWidget() {
             @Override

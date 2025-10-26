@@ -4,6 +4,8 @@ import com.lowdragmc.lowdraglib2.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib2.gui.widget.TankWidget;
 import com.lowdragmc.lowdraglib2.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib2.integration.jei.IngredientIO;
+import com.lowdragmc.lowdraglib2.misc.FabricFluidTransfer;
+import com.lowdragmc.lowdraglib2.misc.FabricItemTransfer;
 import com.lowdragmc.lowdraglib2.misc.TagOrCycleFluidTransfer;
 import com.lowdragmc.lowdraglib2.misc.TagOrCycleItemStackTransfer;
 import com.mojang.datafixers.util.Either;
@@ -22,8 +24,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class TestXEIWidgetGroup extends WidgetGroup {
     public TestXEIWidgetGroup() {
         super(0, 0, 170, 60);
         setClientSideWidget();
-        var input1 = new SlotWidget(new ItemStackHandler(NonNullList.of(ItemStack.EMPTY, new ItemStack(Items.APPLE, 10))), 0, 20, 20, false, false)
+        var input1 = new SlotWidget(new FabricItemTransfer(NonNullList.of(ItemStack.EMPTY, new ItemStack(Items.APPLE, 10))), 0, 20, 20, false, false)
                 .setBackgroundTexture(SlotWidget.ITEM_SLOT_TEXTURE)
                 .setIngredientIO(IngredientIO.INPUT)
                 .setXEIChance(0);
@@ -48,26 +48,26 @@ public class TestXEIWidgetGroup extends WidgetGroup {
                 .setXEIChance(0);
 
 
-        var input4 = new SlotWidget(new ItemStackHandler(), 0, 40, 20, false, false)
+        var input4 = new SlotWidget(new FabricItemTransfer(), 0, 40, 20, false, false)
                 .setBackgroundTexture(SlotWidget.ITEM_SLOT_TEXTURE)
                 .setIngredientIO(IngredientIO.INPUT);
 
-        var output = new SlotWidget(new ItemStackHandler(NonNullList.of(ItemStack.EMPTY, new ItemStack(Items.DIAMOND, 23))), 0, 130, 20, false, false)
+        var output = new SlotWidget(new FabricItemTransfer(NonNullList.of(ItemStack.EMPTY, new ItemStack(Items.DIAMOND, 23))), 0, 130, 20, false, false)
                 .setBackgroundTexture(SlotWidget.ITEM_SLOT_TEXTURE)
                 .setIngredientIO(IngredientIO.OUTPUT);
 
-        var both = new SlotWidget(new ItemStackHandler(NonNullList.of(ItemStack.EMPTY, new ItemStack(Items.ANDESITE, 23))), 0, 60, 20, false, false)
+        var both = new SlotWidget(new FabricItemTransfer(NonNullList.of(ItemStack.EMPTY, new ItemStack(Items.ANDESITE, 23))), 0, 60, 20, false, false)
                 .setBackgroundTexture(SlotWidget.ITEM_SLOT_TEXTURE)
                 .setIngredientIO(IngredientIO.BOTH);
 
-        FluidTank tank = new FluidTank(1000);
-        tank.setFluid(new FluidStack(Fluids.WATER, 1000));
+        FabricFluidTransfer tank = new FabricFluidTransfer(1000);
+        tank.setFluidInTank(0, new FluidStack(Fluids.WATER, 1000));
         var inputFluid = new TankWidget(tank, 20, 40, 20, 20, false, false)
                 .setBackground(TankWidget.FLUID_SLOT_TEXTURE)
                 .setIngredientIO(IngredientIO.INPUT);
 
-        tank = new FluidTank(1000);
-        tank.setFluid(new FluidStack(Fluids.LAVA, 1000));
+        tank = new FabricFluidTransfer(1000);
+        tank.setFluidInTank(0, new FluidStack(Fluids.LAVA, 1000));
         var outputFluid = new TankWidget(tank, 130, 40, 20, 20, false, false)
                 .setBackground(TankWidget.FLUID_SLOT_TEXTURE)
                 .setIngredientIO(IngredientIO.OUTPUT)
